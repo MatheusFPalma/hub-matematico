@@ -1,5 +1,6 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Home from "../pages/Home";
+import ChallengeLevel from "../pages/ChallengeLevel";
 
 const router = createBrowserRouter([
     {
@@ -9,7 +10,12 @@ const router = createBrowserRouter([
     {
         path: '/onboard',
         element: ''
+    },
+    {
+        path: '/challengeLevel',
+        element: <ChallengeLevel />
     }
+
 ])
 
 const AppRoutes: React.FC = () => {
