@@ -1,7 +1,5 @@
 import { Box, Paper, Typography, useTheme } from '@mui/material'
 import "../App.css";
-import "../styles/card.memory.module.css"
-
 
 interface CardMemoryProps {
     value: number | undefined | React.ReactNode;
@@ -19,17 +17,17 @@ const CardMemory: React.FC<CardMemoryProps> = ({ value, figure, operation }) => 
                 flexWrap: 'wrap',
                 '& > :not(style)': {
                     m: 1,
-                    width: 144,
-                    height: 198,
+                    width: 68,
+                    height: 108,
                     borderRadius: 4,
-                    backgroundColor: '#FBFEFB',
+                    backgroundColor: theme.palette.primary.main,
                     color: theme.palette.secondary.main
                 },
             }}
         >
             <Paper sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                <Typography style={{ width: '40px', height: '40px', justifyContent: 'center', display: 'flex', alignItems: 'center', fontFamily: 'Fredoka', fontSize: '60px', fontWeight: 600 }} className='styleNumberCard'>{value} <span>{operation}</span></Typography>
-                <img style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-end', width: '58px', height: '53px' }} src={figure} alt='apple' />
+                <Typography style={{ width: '45px', height: '25px', justifyContent: 'center', display: 'flex', alignItems: 'center', fontFamily: 'Fredoka', fontSize: '20px', fontWeight: 600 }} className='styleNumberCard'>{value} <span style={{ display: 'flex', alignItems: 'center' }}>{operation}</span></Typography>
+                <img style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-end', width: '28px', height: '23px' }} src={figure} alt='apple' />
             </Paper>
         </Box>
     )
