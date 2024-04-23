@@ -4,7 +4,7 @@ import ChallengeLevel from "../pages/ChallengeLevel";
 
 const router = createBrowserRouter([
     {
-        path: '/',
+        path: '/cards',
         element: <Home />
     },
     {
@@ -12,7 +12,7 @@ const router = createBrowserRouter([
         element: ''
     },
     {
-        path: '/challengeLevel',
+        path: '/',
         element: <ChallengeLevel />
     }
 

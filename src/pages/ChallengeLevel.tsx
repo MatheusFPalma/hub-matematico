@@ -20,19 +20,16 @@ const ChallengeLevel = () => {
             case 'Fácil':
                 setCurrentLevel('Facil')
                 dispatch(getOperationOne('adicao'))
-                dispatch(getOperationTwo('subtracao'))
-                navigate('/')
+                navigate('/cards')
                 break;
             case 'Médio':
                 setCurrentLevel('Médio')
                 dispatch(getOperationOne('multiplicacao'))
-                dispatch(getOperationTwo('divisao'))
-                navigate('/')
+                navigate('/cards')
                 break;
             case 'Difícil':
                 setCurrentLevel('Difícil')
-                dispatch(getOperationOne('fracao'))
-                navigate('/')
+                navigate('/cards')
                 break;
         }
     }

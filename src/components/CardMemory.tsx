@@ -26,8 +26,8 @@ const CardMemory: React.FC<CardMemoryProps> = ({ value, figure, operation }) => 
             }}
         >
             <Paper sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                <Typography style={{ width: '45px', height: '25px', justifyContent: 'center', display: 'flex', alignItems: 'center', fontFamily: 'Fredoka', fontSize: '20px', fontWeight: 600 }} className='styleNumberCard'>{value} <span style={{ display: 'flex', alignItems: 'center' }}>{operation}</span></Typography>
-                <img style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-end', width: '28px', height: '23px' }} src={figure} alt='apple' />
+                <Typography style={{ width: '40px', height: '40px', justifyContent: 'center', display: 'flex', alignItems: 'center', fontFamily: 'Fredoka', fontSize: '24px', fontWeight: 600 }} className='styleNumberCard'>{value} <span style={{ display: 'flex', paddingLeft: '5px', alignItems: 'center', height: '40px', fontSize: '18px' }}>{operation}</span></Typography>
+                <img style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-end', width: '38px', height: '33px' }} src={figure} alt='apple' />
             </Paper>
         </Box>
     )
