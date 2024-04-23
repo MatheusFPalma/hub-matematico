@@ -1,31 +1,31 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { PayloadAction } from "@reduxjs/toolkit/dist/react";
 
-export interface OperationType {
+export interface CardType {
     cardId: string
     numberCard: number;
     operation: string;
     img: string
 }
 
-interface OperationState {
-    cards: OperationType[]
+interface CardState {
+    cards: CardType[]
 }
 
-export const initialState: OperationState = {
+export const initialState: CardState = {
     cards: []
 }
 
 export const cardsSlice = createSlice({
-    name: 'renderCards',
+    name: 'getCards',
     initialState,
     reducers: {
-        renderCards: (state, action: PayloadAction<OperationType>) => {
-            state.cards.push(action.payload)
+        getCards: (state, action) => {
+            state.cards = action.payload
             return state
         }
     }
 })
 
-export const { renderCards } = cardsSlice.actions
+export const { getCards } = cardsSlice.actions
 export default cardsSlice.reducer
