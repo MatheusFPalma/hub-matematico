@@ -3,6 +3,7 @@ import { PayloadAction } from "@reduxjs/toolkit/dist/react";
 
 export interface OperationType {
     cardId: string
+    numberCard: number;
     operation: string;
     img: string
 }
