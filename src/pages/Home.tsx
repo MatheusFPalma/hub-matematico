@@ -22,7 +22,6 @@ const Home = () => {
 
     const dispatch = useAppDispatch()
     const operationRedux = useAppSelector((state) => state.operations)
-    const cardsRedux = useAppSelector((state) => state.cards)
     const [resultEquation, setResultEquation] = useState<number | null>(null)
     const [renderCards, setRenderCards] = useState<CardType[]>([])
     const [renderOperation, setOperation] = useState<string>('')
