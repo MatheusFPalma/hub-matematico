@@ -1,5 +1,7 @@
+import { Box, Grid } from "@mui/material";
 import "../App.css"
 import ChallengeLevel from "../components/ChallengeLevel"
+import DisplayScore from "../components/DisplayScore";
 
 const PlayRoom = () => {
     const isOnHomePage = window.location.pathname === "/play-room";
@@ -12,7 +14,10 @@ const PlayRoom = () => {
 
     return (
         <>
-            <ChallengeLevel />
+            <Box >
+                <DisplayScore score={0} />
+                <ChallengeLevel />
+            </Box>
         </>
     )
 }
