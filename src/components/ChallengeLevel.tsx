@@ -91,7 +91,7 @@ const ChallengeLevel = () => {
             const firstCard = renderCards[2].numberCard;
             const secondCard = renderCards[1].numberCard;
             const targetValue = firstCard + secondCard;
-            const operationText = operationRedux.operationLevel === "+" ? "somatória" : operationRedux.operationLevel === "x" ? "multiplicação" : operationRedux.operationLevel === "÷" ? "divisão" : "subrtracao";
+            const operationText = operationRedux.operationLevel === "+" ? "somatória" : operationRedux.operationLevel === "x" ? "multiplicação" : operationRedux.operationLevel === "÷" ? "divisão" : "subtracao";
             setStatement(`Selecione os cards cuja ${operationText} de maçãs resultem em ${targetValue} unidades.`);
 
             if (!isPossible(targetValue, renderCards)) {
