@@ -8,6 +8,8 @@ import apple from "/apple_level_One.png"
 import { v4 as createUuid } from "uuid"
 import GroupOperationLevel from "./GroupOperationLevel";
 import CardResult from "./CardResult";
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import { Link } from "react-router-dom";
 
 const ChallengeLevel = () => {
 
@@ -79,6 +81,15 @@ const ChallengeLevel = () => {
                 if (cards[i].numberCard + cards[j].numberCard === targetValue) {
                     return true;
                 }
+                if (cards[i].numberCard - cards[j].numberCard === targetValue) {
+                    return true
+                }
+                if (cards[i].numberCard * cards[j].numberCard === targetValue) {
+                    return true
+                }
+                if (cards[i].numberCard / cards[j].numberCard === targetValue) {
+                    return true
+                }
             }
         }
         return false;
@@ -131,10 +142,13 @@ const ChallengeLevel = () => {
     console.log(historyEquations)
     return (
         <>
-            <Grid item sx={{ marginTop: '40px', padding: '20px 20px 0px 20px', display: 'flex', justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
-                <Typography sx={{ marginTop: '60px', fontFamily: 'Fredoka, sans-serif', fontWeight: 600, fontSize: '26px', color: '#F5EBFF' }}>{statement}</Typography>
-            </Grid>
-            <Box className={'backgroundScreen'} sx={{ justifyContent: 'center', alignItems: 'center', display: 'flow', flexFlow: 'column' }}>
+            <Box sx={{ display: 'flex', flexFlow: 'column' }}>
+                <Grid item sx={{ marginTop: '5px', display: 'flex', padding: '20px 40px 0px 40px', flexDirection: 'column', justifyContent: 'center', alignItems: 'flex-start', textAlign: 'center' }}>
+                    <Link to={'/tutorial'}><ChevronLeftIcon sx={{ width: '35px', height: '35px', marginTop: '5px', color: '#fff' }} /></Link>
+                </Grid>
+                <Grid item sx={{ display: 'flex', justifyContent: 'center', padding: '20px 40px 0px 40px', alignItems: 'center', textAlign: 'center' }}>
+                    <Typography sx={{ marginTop: '10px', fontFamily: 'Fredoka, sans-serif', fontWeight: 600, fontSize: '26px', color: '#F5EBFF' }}>{statement}</Typography>
+                </Grid>
                 <Grid item xs={12} sm={6} md={4} sx={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', margin: '40px 40px 10px' }}>
                     {allRight ? (renderCards.map((item) => (
                         <CardMemory action={() => handleCardClick(item.numberCard)} key={item.cardId} value={item.numberCard} operation={simbolOperation} figure={apple} />
