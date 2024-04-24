@@ -1,19 +1,23 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import Home from "../pages/Home";
-import ChallengeLevel from "../pages/ChallengeLevel";
+import ChoiceLevel from "../pages/ChoiceLevel";
+import PlayRoom from "../pages/PlayRoom";
 
 const router = createBrowserRouter([
     {
-        path: '/cards',
-        element: <Home />
-    },
-    {
-        path: '/onboard',
-        element: ''
+        path: '/play-room',
+        element: <PlayRoom />
     },
     {
         path: '/',
-        element: <ChallengeLevel />
+        element: <h1>Aqui pode ficar a página de onboard, pois ela é a primeira a ser mostrada ao usuario</h1>
+    },
+    {
+        path: '/tutorial',
+        element: ''
+    },
+    {
+        path: '/choiceLevel',
+        element: <ChoiceLevel />
     }
 
 ])
