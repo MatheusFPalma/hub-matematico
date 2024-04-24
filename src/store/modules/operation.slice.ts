@@ -1,23 +1,28 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 interface OperationType {
-    operationLevel: 'adicao' | 'subtracao' | 'multiplicacao' | 'divisao' | 'fracao' | null,
+    operationLevel: '+' | '-' | 'x' | '÷' | '¹/x' | null,
+    gameLevel: 'Fácil' | 'Médio' | 'Difícil' | null
 }
 
 const initialState: OperationType = {
     operationLevel: null,
+    gameLevel: null
 }
 
 export const operationSlice = createSlice({
     name: "operation",
     initialState,
     reducers: {
-        getOperationOne: (state, action) => {
-            state.operationLevel = action.payload
+        getOperationOne: (state, action: PayloadAction<OperationType>) => {
+            state.operationLevel = action.payload.operationLevel
+            state.gameLevel = action.payload.gameLevel
             return state
         },
-        getOperationTwo: (state, action) => {
-            state.operationLevel = action.payload
+        getOperationTwo: (state, action: PayloadAction<OperationType>) => {
+            state.operationLevel = action.payload.operationLevel
+            state.gameLevel = action.payload.gameLevel
+            return state
         }
     }
 })
