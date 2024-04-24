@@ -1,10 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { PayloadAction } from "@reduxjs/toolkit/dist/react";
 
 export interface CardType {
     cardId: string
     numberCard: number;
-    operation: string;
+    operation: string | null;
     img: string
 }
 
