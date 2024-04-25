@@ -22,6 +22,7 @@ const ChallengeLevel = () => {
     const [secondCard, setSecondCard] = useState<number>(0);
     const [allRight, setAllRight] = useState<boolean>(true)
     const [selectedPair, setSelectedPair] = useState<boolean>(false);
+    const [resultEquation, setResultEquation] = useState<number>()
 
     const handleCardClick = (value: number) => {
         if (!selectedPair) {
@@ -99,18 +100,22 @@ const ChallengeLevel = () => {
         if (renderCards.length > 2) {
             // Se ambas as cartas foram selecionadas
             setAllRight(true)
-            const firstCard = renderCards[2].numberCard;
-            const secondCard = renderCards[1].numberCard;
-            const targetValue = firstCard + secondCard;
-            const operationText = operationRedux.operationLevel === "+" ? "somatória" : operationRedux.operationLevel === "x" ? "multiplicação" : operationRedux.operationLevel === "÷" ? "divisão" : "subtracao";
-            setStatement(`Selecione os cards cuja ${operationText} de maçãs resultem em ${targetValue} unidades.`);
+            const firstCard = Number(renderCards[2].numberCard.toFixed(2));
+            const secondCard = Number(renderCards[3].numberCard.toFixed(2));
 
-            if (!isPossible(targetValue, renderCards)) {
-                // Se não for possível obter a resposta com as cartas disponíveis, gerar um novo conjunto de cartas
-                setFirstCard(0);
-                setSecondCard(0);
-                setSelectedPair(false);
-                setRenderCards(handleNumbers());
+            if (firstCard !== 0 && secondCard !== 0) {
+                const targetValue = simbolOperation === '+' ? firstCard + secondCard : simbolOperation === '-' ? firstCard - secondCard : simbolOperation === 'x' ? firstCard * secondCard : firstCard / secondCard
+
+                const operationText = operationRedux.operationLevel === "+" ? "somatória" : operationRedux.operationLevel === "x" ? "multiplicação" : operationRedux.operationLevel === "÷" ? "divisão" : "subtracao";
+                setStatement(`Selecione os cards cuja ${operationText} de maçãs resultem em ${targetValue} unidades.`);
+
+                if (!isPossible(Number(targetValue.toFixed(2)), renderCards)) {
+                    // Se não for possível obter a resposta com as cartas disponíveis, gerar um novo conjunto de cartas
+                    setFirstCard(0);
+                    setSecondCard(0);
+                    setSelectedPair(false);
+                    setRenderCards(handleNumbers());
+                }
             }
         }
         else {
@@ -126,14 +131,12 @@ const ChallengeLevel = () => {
         changeOperation()
         setRenderCards(resultCards)
 
-
-    }, [operationRedux.operationLevel])
+    }, [operationRedux.operationLevel, simbolOperation])
 
 
     const historyEquations = useAppSelector((state) => state.challenges.historyEquations)
     const lastEquationResult = historyEquations.length > 0 ? historyEquations[historyEquations.length - 1].result : 0
 
-    const [resultEquation, setResultEquation] = useState<number>()
 
     useEffect(() => {
         setResultEquation(lastEquationResult)
