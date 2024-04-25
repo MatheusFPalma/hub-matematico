@@ -1,6 +1,6 @@
 import { Box, Paper, Typography, useTheme } from '@mui/material'
 import "../App.css";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface CardMemoryProps {
     value: number | undefined
@@ -11,13 +11,35 @@ interface CardMemoryProps {
 
 const CardMemory: React.FC<CardMemoryProps> = ({ value, figure, operation, action }) => {
     const theme = useTheme()
-    const [clicked, setClicked] = useState(false)
+    const [clicked, setClicked] = useState(false);
+
+
+    // useEffect(() => {
+    //     // Resetar o estado 'clicked' quando a propriedade 'value' for alterada
+    //     setClicked(false);
+    // }, [value]);
 
     const handleClick = () => {
         setClicked(!clicked); // Alternar o estado ao clicar no card
         action(value); // Chamar a função de ação fornecida
     };
 
+
+    // const handleClick = () => {
+    //     if (selectedCardIndex === null) {
+    //         // Se nenhuma carta foi selecionada, selecionar a carta atual
+    //         setSelectedCardIndex(index);
+    //         action(index, value);
+    //     } else if (selectedCardIndex === index) {
+    //         // Se a carta atual já foi selecionada, desmarcar a seleção
+    //         setSelectedCardIndex(null);
+    //         action(index, undefined);
+    //     } else {
+    //         // Se outra carta foi selecionada, trocar a seleção
+    //         setSelectedCardIndex(index);
+    //         action(index, value);
+    //     }
+    // };
 
     return (
         <Box

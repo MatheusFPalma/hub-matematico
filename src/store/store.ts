@@ -7,7 +7,7 @@ const persistConfig = {
     key: 'game-memory',
     version: 1,
     storage,
-    whitelist: ['getHistory']
+    whitelist: ['getHistory', 'operation', 'getCards']
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

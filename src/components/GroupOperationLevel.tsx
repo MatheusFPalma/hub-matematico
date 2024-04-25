@@ -21,7 +21,7 @@ const GroupOperationLevel: React.FC<GroupOperationLevelProps> = ({
     useEffect(() => {
         let result = 0;
         if (operationLevel === '÷' && secondCard === 0) {
-            result = firstCard;
+            result = 0;
         } else {
             switch (operationLevel) {
                 case '+':
