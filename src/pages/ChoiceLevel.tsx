@@ -36,7 +36,7 @@ const ChoiceLevel = () => {
     }
 
     return (
-        <Grid container sx={{ flexDirection: 'column' }}>
+        <Grid container sx={{ alignItems: 'center', textAlign: 'center', flexDirection: 'column', marginTop: '60px' }} >
             <Grid item sx={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: "center" }}>
                 <img style={{ width: '140px', height: '150px', marginBottom: '10px' }} src={logoMatic} alt='calculadora' />
                 <Typography sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', textAlign: 'center', fontFamily: 'Fredoka, sans-serif', fontSize: '25.41px', fontWeight: 600, color: '#426141' }}>Selecione seu nível de dificuldade</Typography>
