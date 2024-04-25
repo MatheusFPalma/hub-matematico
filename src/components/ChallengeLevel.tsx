@@ -149,7 +149,7 @@ const ChallengeLevel: React.FC<ChallengeLevelProps> = ({ children }) => {
     console.log(historyEquations)
     return (
         <>
-            <Box sx={{ display: 'flex', flexFlow: 'column' }}>
+            <Box sx={{ display: 'flex', flexFlow: 'column', marginBottom: '80px' }}>
                 <Grid item sx={{ display: 'flex', alignItems: 'flex-end' }}>
                     {children}
                 </Grid>
