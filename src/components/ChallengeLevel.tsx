@@ -1,6 +1,6 @@
 import { Box, CircularProgress, Grid, Typography } from "@mui/material"
 import CardMemory from "./CardMemory"
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { CardType, getCards } from "../store/modules/cards.slice";
 import signalIqual from "/signal_iqual.png"
@@ -11,7 +11,11 @@ import CardResult from "./CardResult";
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { Link } from "react-router-dom";
 
-const ChallengeLevel = () => {
+interface ChallengeLevelProps {
+    children?: React.ReactNode
+}
+
+const ChallengeLevel: React.FC<ChallengeLevelProps> = ({ children }) => {
 
     const dispatch = useAppDispatch()
     const operationRedux = useAppSelector((state) => state.operations)
@@ -107,7 +111,7 @@ const ChallengeLevel = () => {
                 const targetValue = simbolOperation === '+' ? firstCard + secondCard : simbolOperation === '-' ? firstCard - secondCard : simbolOperation === 'x' ? firstCard * secondCard : firstCard / secondCard
 
                 const operationText = operationRedux.operationLevel === "+" ? "somatória" : operationRedux.operationLevel === "x" ? "multiplicação" : operationRedux.operationLevel === "÷" ? "divisão" : "subtracao";
-                setStatement(`Selecione os cards cuja ${operationText} de maçãs resultem em ${targetValue} unidades.`);
+                setStatement(`Selecione os cards cuja ${operationText} de maçãs resultem em ${targetValue.toFixed(2)} unidades.`);
 
                 if (!isPossible(Number(targetValue.toFixed(2)), renderCards)) {
                     // Se não for possível obter a resposta com as cartas disponíveis, gerar um novo conjunto de cartas
@@ -146,8 +150,11 @@ const ChallengeLevel = () => {
     return (
         <>
             <Box sx={{ display: 'flex', flexFlow: 'column' }}>
-                <Grid item sx={{ marginTop: '5px', display: 'flex', padding: '20px 40px 0px 40px', flexDirection: 'column', justifyContent: 'center', alignItems: 'flex-start', textAlign: 'center' }}>
-                    <Link to={'/tutorial'}><ChevronLeftIcon sx={{ width: '35px', height: '35px', marginTop: '5px', color: '#fff' }} /></Link>
+                <Grid item sx={{ display: 'flex', alignItems: 'flex-end' }}>
+                    {children}
+                </Grid>
+                <Grid container item sx={{ marginTop: '5px', flexDirection: 'column', justifyContent: 'center', textAlign: 'center' }}>
+                    <Link to={'/tutorial'}><ChevronLeftIcon sx={{ display: 'flex', width: '35px', padding: '20px 40px 0px 40px', height: '35px', marginTop: '5px', color: '#fff', alignItems: 'flex-start' }} /></Link>
                 </Grid>
                 <Grid item sx={{ display: 'flex', justifyContent: 'center', padding: '20px 40px 0px 40px', alignItems: 'center', textAlign: 'center' }}>
                     <Typography sx={{ marginTop: '10px', fontFamily: 'Fredoka, sans-serif', fontWeight: 600, fontSize: '26px', color: '#F5EBFF' }}>{statement}</Typography>
