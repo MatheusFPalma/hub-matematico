@@ -10,6 +10,7 @@ import GroupOperationLevel from "./GroupOperationLevel";
 import CardResult from "./CardResult";
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { Link } from "react-router-dom";
+import ButtonDefault from "./ButtonDefault";
 
 interface ChallengeLevelProps {
     children?: React.ReactNode
@@ -146,10 +147,9 @@ const ChallengeLevel: React.FC<ChallengeLevelProps> = ({ children }) => {
         setResultEquation(lastEquationResult)
     }, [resultEquation, lastEquationResult])
 
-    console.log(historyEquations)
     return (
         <>
-            <Box sx={{ display: 'flex', flexFlow: 'column', marginBottom: '80px' }}>
+            <Box sx={{ display: 'flex', flexFlow: 'column' }}>
                 <Grid item sx={{ display: 'flex', alignItems: 'flex-end' }}>
                     {children}
                 </Grid>
