@@ -104,8 +104,8 @@ const ChallengeLevel: React.FC<ChallengeLevelProps> = ({ children }) => {
         if (renderCards.length > 2) {
             // Se ambas as cartas foram selecionadas
             setAllRight(true)
-            const firstCard = Number(renderCards[Math.floor(Math.random() * 9)].numberCard.toFixed(2));
-            const secondCard = Number(renderCards[Math.floor(Math.random() * 9)].numberCard.toFixed(2));
+            const firstCard = Number(renderCards[2].numberCard.toFixed(2));
+            const secondCard = Number(renderCards[6].numberCard.toFixed(2));
 
             if (firstCard !== 0 && secondCard !== 0) {
                 const targetValue = simbolOperation === '+' ? firstCard + secondCard : simbolOperation === '-' ? firstCard - secondCard : simbolOperation === 'x' ? firstCard * secondCard : firstCard / secondCard
