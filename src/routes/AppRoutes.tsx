@@ -13,7 +13,10 @@ const router = createBrowserRouter([
     },
     {
         path: '/tutorial',
-        element: ''
+        element: <h2>Aqui será a tela de tutorial com os cards dos tutoriais dos 3 níveis de dificuldade
+            O card pode ser um componente que renderiza o tutorial do nível de acordo com o nível que foi escolhido pelo
+            usuário na tela anterior
+        </h2>
     },
     {
         path: '/choiceLevel',

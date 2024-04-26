@@ -1,6 +1,6 @@
 import { Box, CircularProgress, Grid, Typography } from "@mui/material"
 import CardMemory from "./CardMemory"
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { CardType, getCards } from "../store/modules/cards.slice";
 import signalIqual from "/signal_iqual.png"
@@ -8,18 +8,29 @@ import apple from "/apple_level_One.png"
 import { v4 as createUuid } from "uuid"
 import GroupOperationLevel from "./GroupOperationLevel";
 import CardResult from "./CardResult";
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import { Link } from "react-router-dom";
+import ButtonDefault from "./ButtonDefault";
 
-const ChallengeLevel = () => {
+interface ChallengeLevelProps {
+    children?: React.ReactNode
+}
+
+const ChallengeLevel: React.FC<ChallengeLevelProps> = ({ children }) => {
 
     const dispatch = useAppDispatch()
     const operationRedux = useAppSelector((state) => state.operations)
     const [renderCards, setRenderCards] = useState<CardType[]>([])
+
+    // const [selectedCards, setSelectedCards] = useState<number[]>([])
+    // ------------------- /// -----------
     const [simbolOperation, setSimbolOperation] = useState<string>('')
     const [statement, setStatement] = useState<string>('')
     const [firstCard, setFirstCard] = useState<number>(0);
     const [secondCard, setSecondCard] = useState<number>(0);
     const [allRight, setAllRight] = useState<boolean>(true)
     const [selectedPair, setSelectedPair] = useState<boolean>(false);
+    const [resultEquation, setResultEquation] = useState<number>()
 
     const handleCardClick = (value: number) => {
         if (!selectedPair) {
@@ -33,6 +44,32 @@ const ChallengeLevel = () => {
     }
 
 
+    // useEffect(() => {
+    //     if (selectedPair) {
+
+    //     }
+
+    // }, [selectedPair])
+
+    // const handleCardClick = (value: number) => {
+    //     // Verifica se a carta já está selecionada
+    //     if (firstCard.includes(value) || secondCard.includes(value)) {
+    //         // Se estiver, remove-a da lista de cartas selecionadas
+    //         if (firstCard[firstCard.length - 1] === value) {
+    //             setFirstCard(firstCard.filter((cardNumber) => cardNumber !== value))
+    //         }
+    //         if (secondCard[secondCard.length - 1] === value) {
+    //             setSecondCard(secondCard.filter((cardNumber) => cardNumber !== value))
+    //         }
+    //         // setSelectedCards(selectedCards.filter((cardIndex) => cardIndex !== index));
+    //     } else {
+    //         // Se não estiver, adiciona-a à lista de cartas selecionadas
+    //         setSecondCard([...secondCard, value]);
+    //         setFirstCard([...firstCard, value]);
+    //         setSelectedPair(true); // Indica que o par de cartas foi selecionado
+    //     }
+    // };
+
     const handleNumbers = () => {
         const newCards: CardType[] = [];
 
@@ -43,7 +80,7 @@ const ChallengeLevel = () => {
             const newCard: CardType = {
                 cardId: cardId,
                 numberCard: randomNumber,
-                operation: simbolOperation,
+                operation: operationRedux.operationLevel,
                 img: apple
             };
             newCards.push(newCard);
@@ -72,34 +109,47 @@ const ChallengeLevel = () => {
         }
     }
 
-    const isPossible = (targetValue: number, cards: CardType[]) => {
-        // Verifica se é possível obter o targetValue com os números das cartas disponíveis
-        for (let i = 0; i < cards.length; i++) {
-            for (let j = i + 1; j < cards.length; j++) {
-                if (cards[i].numberCard + cards[j].numberCard === targetValue) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    };
+    // const isPossible = (targetValue: number, cards: CardType[]) => {
+    //     // Verifica se é possível obter o targetValue com os números das cartas disponíveis
+    //     for (let i = 0; i < cards.length; i++) {
+    //         for (let j = i + 1; j < cards.length; j++) {
+    //             if (cards[i].numberCard + cards[j].numberCard === targetValue) {
+    //                 return true;
+    //             }
+    //             if (cards[i].numberCard - cards[j].numberCard === targetValue) {
+    //                 return true
+    //             }
+    //             if (cards[i].numberCard * cards[j].numberCard === targetValue) {
+    //                 return true
+    //             }
+    //             if (cards[i].numberCard / cards[j].numberCard === targetValue) {
+    //                 return true
+    //             }
+    //         }
+    //     }
+    //     return false;
+    // };
 
     useEffect(() => {
         if (renderCards.length > 2) {
             // Se ambas as cartas foram selecionadas
             setAllRight(true)
-            const firstCard = renderCards[2].numberCard;
-            const secondCard = renderCards[1].numberCard;
-            const targetValue = firstCard + secondCard;
-            const operationText = operationRedux.operationLevel === "+" ? "somatória" : operationRedux.operationLevel === "x" ? "multiplicação" : operationRedux.operationLevel === "÷" ? "divisão" : "subtracao";
-            setStatement(`Selecione os cards cuja ${operationText} de maçãs resultem em ${targetValue} unidades.`);
+            const firstCard = Number(renderCards[2].numberCard.toFixed(2));
+            const secondCard = Number(renderCards[6].numberCard.toFixed(2));
 
-            if (!isPossible(targetValue, renderCards)) {
-                // Se não for possível obter a resposta com as cartas disponíveis, gerar um novo conjunto de cartas
-                setFirstCard(0);
-                setSecondCard(0);
-                setSelectedPair(false);
-                setRenderCards(handleNumbers());
+            if (firstCard !== 0 && secondCard !== 0) {
+                const targetValue = simbolOperation === '+' ? firstCard + secondCard : simbolOperation === '-' ? firstCard - secondCard : simbolOperation === 'x' ? firstCard * secondCard : firstCard / secondCard
+
+                const operationText = operationRedux.operationLevel === "+" ? "somatória" : operationRedux.operationLevel === "x" ? "multiplicação" : operationRedux.operationLevel === "÷" ? "divisão" : "subtracao";
+                setStatement(`Selecione os cards cuja ${operationText} de maçãs resultem em ${targetValue.toFixed(2)} unidades.`);
+
+                // if (!isPossible(Number(targetValue.toFixed(2)), renderCards)) {
+                //     // Se não for possível obter a resposta com as cartas disponíveis, gerar um novo conjunto de cartas
+                //     setFirstCard(0);
+                //     setSecondCard(0);
+                //     setSelectedPair(false);
+                //     setRenderCards(handleNumbers());
+                // }
             }
         }
         else {
@@ -115,29 +165,39 @@ const ChallengeLevel = () => {
         changeOperation()
         setRenderCards(resultCards)
 
-
-    }, [operationRedux.operationLevel])
+    }, [operationRedux.operationLevel, simbolOperation])
 
 
     const historyEquations = useAppSelector((state) => state.challenges.historyEquations)
     const lastEquationResult = historyEquations.length > 0 ? historyEquations[historyEquations.length - 1].result : 0
 
-    const [resultEquation, setResultEquation] = useState<number>()
 
     useEffect(() => {
         setResultEquation(lastEquationResult)
     }, [resultEquation, lastEquationResult])
 
+    console.log(lastEquationResult)
     console.log(historyEquations)
+    console.log(resultEquation)
+    console.log(firstCard)
+    console.log(secondCard)
+    console.log(renderCards)
+
     return (
         <>
-            <Grid item sx={{ marginTop: '40px', padding: '20px 20px 0px 20px', display: 'flex', justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
-                <Typography sx={{ marginTop: '60px', fontFamily: 'Fredoka, sans-serif', fontWeight: 600, fontSize: '26px', color: '#F5EBFF' }}>{statement}</Typography>
-            </Grid>
-            <Box className={'backgroundScreen'} sx={{ justifyContent: 'center', alignItems: 'center', display: 'flow', flexFlow: 'column' }}>
+            <Box sx={{ display: 'flex', flexFlow: 'column' }}>
+                <Grid item sx={{ display: 'flex', alignItems: 'flex-end' }}>
+                    {children}
+                </Grid>
+                <Grid container item sx={{ marginTop: '5px', flexDirection: 'column', justifyContent: 'center', textAlign: 'center' }}>
+                    <Link to={'/tutorial'}><ChevronLeftIcon sx={{ display: 'flex', width: '35px', padding: '20px 40px 0px 40px', height: '35px', marginTop: '5px', color: '#fff', alignItems: 'flex-start' }} /></Link>
+                </Grid>
+                <Grid item sx={{ display: 'flex', justifyContent: 'center', padding: '20px 40px 0px 40px', alignItems: 'center', textAlign: 'center' }}>
+                    <Typography sx={{ marginTop: '10px', fontFamily: 'Fredoka, sans-serif', fontWeight: 600, fontSize: '26px', color: '#F5EBFF' }}>{statement}</Typography>
+                </Grid>
                 <Grid item xs={12} sm={6} md={4} sx={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', margin: '40px 40px 10px' }}>
                     {allRight ? (renderCards.map((item) => (
-                        <CardMemory action={() => handleCardClick(item.numberCard)} key={item.cardId} value={item.numberCard} operation={simbolOperation} figure={apple} />
+                        <CardMemory action={() => handleCardClick(item.numberCard)} key={item.cardId} value={item.numberCard} operation={operationRedux.operationLevel} figure={apple} />
                     ))) : (<CircularProgress color="inherit" />)}
                 </Grid>
                 <Grid item sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
