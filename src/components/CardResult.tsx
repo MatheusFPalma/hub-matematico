@@ -1,6 +1,4 @@
 import { Box, Paper, Typography, useTheme } from "@mui/material"
-import { useAppSelector } from "../store/hooks"
-import { useEffect, useState } from "react"
 
 interface CardResultProps {
     value: number | undefined
@@ -26,7 +24,7 @@ const CardResult: React.FC<CardResultProps> = ({ value }) => {
             }}
         >
             <Paper sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                <Typography style={{ width: '45px', height: '25px', justifyContent: 'center', display: 'flex', alignItems: 'center', fontFamily: 'Fredoka', fontSize: '42px', fontWeight: 600 }} className='styleNumberCard'>{value}</Typography>
+                <Typography style={{ width: '45px', height: '25px', justifyContent: 'center', display: 'flex', alignItems: 'center', fontFamily: 'Fredoka', fontSize: '42px', fontWeight: 600 }}>{value}</Typography>
             </Paper>
         </Box>
     )
