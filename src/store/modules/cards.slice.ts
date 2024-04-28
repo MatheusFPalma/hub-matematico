@@ -9,16 +9,12 @@ export interface CardType {
 
 interface CardState {
     cards: CardType[]
-    // lastSelectedCards: string[]
-    // lastSelectedNumbers: number[];
     lastSelectedCards: CardType[];
 }
 
 export const initialState: CardState = {
     cards: [],
     lastSelectedCards: [],
-    // lastSelectedNumbers: [],
-
 }
 
 export const cardsSlice = createSlice({
@@ -29,22 +25,6 @@ export const cardsSlice = createSlice({
             state.cards = action.payload
             return state
         },
-        // removeCard: (state, action: PayloadAction<CardType>) => {
-        //     const findCardIdRepeted = action.payload
-        //     const cardIdSelected = state.lastSelectedCards.find(item => item.cardId === findCardIdRepeted.cardId)
-
-        //     if (!cardIdSelected) {
-        //         state.lastSelectedCards.push(findCardIdRepeted)
-        //         return state
-        //     }
-        //     const indexCardIdSelected = state.lastSelectedCards.findIndex((item) => item.cardId === action.payload.cardId)
-        //     state.lastSelectedCards.splice(indexCardIdSelected, 1)
-        //     return state
-        // },
-        // removeShift: (state, action: PayloadAction<CardType>) => {
-        //     // Remove o número da primeira carta clicada, mantendo apenas o último
-        //     state.lastSelectedCards.shift();
-        // },
         setLastSelectedCard: (state, action: PayloadAction<CardType>) => {
             state.lastSelectedCards.push(action.payload);
             return state;
@@ -53,10 +33,6 @@ export const cardsSlice = createSlice({
             state.lastSelectedCards = state.lastSelectedCards.filter((card) => card.cardId !== action.payload.cardId);
             return state;
         },
-        // clearLastSelectedCards: (state) => {
-        //     state.lastSelectedCards = [];
-        //     return state;
-        // }
     }
 })
 
