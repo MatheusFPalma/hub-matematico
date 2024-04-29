@@ -20,21 +20,25 @@ const GroupOperationLevel: React.FC<GroupOperationLevelProps> = ({
 
     useEffect(() => {
         let result = 0;
-        switch (operationLevel) {
-            case '+':
-                result = sum(firstCard, secondCard);
-                break;
-            case '-':
-                result = subtract(firstCard, secondCard);
-                break;
-            case 'x':
-                result = multiply(firstCard, secondCard);
-                break;
-            case '÷':
-                result = divide(firstCard, secondCard);
-                break;
-            default:
-                result
+        if (operationLevel === '÷' && secondCard === 0) {
+            result = 0;
+        } else {
+            switch (operationLevel) {
+                case '+':
+                    result = sum(firstCard, secondCard);
+                    break;
+                case '-':
+                    result = subtract(firstCard, secondCard);
+                    break;
+                case 'x':
+                    result = multiply(firstCard, secondCard);
+                    break;
+                case '÷':
+                    result = divide(firstCard, secondCard);
+                    break;
+                default:
+                    result
+            }
         }
 
         dispatch(addEquationHistory({

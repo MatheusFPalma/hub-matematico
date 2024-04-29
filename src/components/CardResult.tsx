@@ -22,6 +22,7 @@ const CardResult: React.FC<CardResultProps> = ({ value }) => {
                     backgroundColor: theme.palette.primary.dark,
                     color: theme.palette.primary.main
                 },
+                paddingRight: '32px'
             }}
         >
             <Paper sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
