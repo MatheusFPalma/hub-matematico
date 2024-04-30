@@ -9,6 +9,10 @@ import boy from "/boy.png"
 function Home() {
   const originalText = "Treine operações matemáticas de um modo divertido"
 
+  const handleClick = () => {
+    console.log("Botão clicado!");
+  };
+
   return (
     <Box
       height={"100vh"}
@@ -20,7 +24,7 @@ function Home() {
       bgcolor={"#fbfffb"}
     >
       <img src={logoMatic} alt="oi" height={"20%"}></img>
-      <CardWelcome text={originalText} image={girl} />
+      <CardWelcome text={originalText} image={girl} onClick={handleClick}/>
     </Box>
   )
 }
