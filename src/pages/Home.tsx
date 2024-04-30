@@ -1,19 +1,32 @@
-
-import { Grid } from "@mui/material"
+import { Box } from "@mui/material"
 import "../App.css"
-import CardMemory from "../components/CardMemory"
-import apple from "/apple_level_One.png"
-import type { OperationType } from "../store/modules/operationSlice"
+import logoMatic from "/logoMatic.png"
+import CardWelcome from "../components/CardWelcome"
+import girlGlasses from "/girlGlasses.jpg"
+import girl from "/girl.png"
+import boy from "/boy.png"
 
-const cards: OperationType[] = []
+function Home() {
+  const originalText = "Treine operações matemáticas de um modo divertido"
 
+  const handleClick = () => {
+    console.log("Botão clicado!");
+  };
 
-const Home = () => {
-    return (
-        <Grid container>
-            <CardMemory value={cards.map((item) => item.firstCard)} operation={'+'} figure={apple} />
-        </Grid>
-    )
+  return (
+    <Box
+      height={"100vh"}
+      width={"100vw"}
+      display={"flex"}
+      alignItems={"center"}
+      justifyContent={"center"}
+      flexDirection={"column"}
+      bgcolor={"#fbfffb"}
+    >
+      <img src={logoMatic} alt="oi" height={"20%"}></img>
+      <CardWelcome text={originalText} image={girl} onClick={handleClick}/>
+    </Box>
+  )
 }
 
 export default Home
