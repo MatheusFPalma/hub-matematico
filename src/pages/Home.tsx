@@ -1,6 +1,6 @@
 import { Box } from "@mui/material"
 import "../App.css"
-import logoMatic from "/logoMatic.png"
+import maticGame from "/maticGame.png"
 import CardWelcome from "../components/CardWelcome"
 import girlGlasses from "/girlGlasses.jpg"
 import girl from "/girl.png"
@@ -19,7 +19,7 @@ function Home() {
       flexDirection={"column"}
       bgcolor={"#fbfffb"}
     >
-      <img src={logoMatic} alt="oi" height={"20%"}></img>
+      <img src={maticGame} alt="oi" height={"20%"}></img>
       <CardWelcome text={originalText} image={girl} />
     </Box>
   )
