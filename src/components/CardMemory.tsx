@@ -18,13 +18,13 @@ const CardMemory: React.FC<CardMemoryProps> = ({ card, action }) => {
 
     const handleClick = () => {
 
-        if (isSelected) {
-            dispatch(removeLastSelectedCard(card))
-        }
-        else {
-            setLastSelectedCard(card);
-        }
-
+        // if (isSelected) {
+        //     dispatch(removeLastSelectedCard(card))
+        // }
+        // else {
+        //     setLastSelectedCard(card);
+        // }
+        isSelected ? dispatch(removeLastSelectedCard(card)) : setLastSelectedCard(card);
         action(card.numberCard); // Chamar a função de ação fornecida
     };
 
