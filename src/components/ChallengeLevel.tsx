@@ -90,10 +90,7 @@ const ChallengeLevel: React.FC<ChallengeLevelProps> = ({ children }) => {
             setFirstCard(secondCard);
             setSecondCard(card.numberCard);
         }
-
     }
-
-
 
     console.log(firstCard)
     console.log(secondCard)
