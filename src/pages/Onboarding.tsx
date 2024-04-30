@@ -1,5 +1,5 @@
 import LittleDots from "../components/LittleDots"
-import logoMatic from "../../public/logoMatic.png"
+import maticGame from "../../public/maticGame.png"
 import girl from "../../public/girl.png"
 import girlGlasses from "../../public/girlGlasses.png"
 import boy from "../../public/boy.png"
@@ -88,8 +88,9 @@ function Onboarding() {
         flexDirection={"column"}
         maxHeight={{ xs: "100%", md: "80%" }}
         maxWidth={{ xs: "90%", md: "80%" }}
+        gap={"5%"}
       >
-        <img src={logoMatic} alt="logo" />
+        <img src={maticGame} alt="logo" />
         <Box
           boxShadow={"0px 0px 10px 0.5px #00000024"}
           borderRadius={"30px"}
