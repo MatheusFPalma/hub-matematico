@@ -14,7 +14,7 @@ const CardResult: React.FC<CardResultProps> = ({ value }) => {
                 flexWrap: 'wrap',
                 '& > :not(style)': {
                     m: 1,
-                    width: 80,
+                    width: 95,
                     height: 138,
                     borderRadius: 4,
                     backgroundColor: theme.palette.primary.dark,
