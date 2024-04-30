@@ -32,25 +32,24 @@ const ChallengeLevel: React.FC<ChallengeLevelProps> = ({ children }) => {
 
 
     const historyEquations = useAppSelector((state) => state.challenges.historyEquations)
-    const lastEquationResult = historyEquations.length > 0 ? historyEquations[historyEquations.length - 1].result : 0
+    const lastEquationResult = historyEquations.length > 0 ? Number(historyEquations[historyEquations.length - 1].result.toFixed(2)) : 0
     const lastSelectedCardsRedux = useAppSelector(state => state.cards.lastSelectedCards)
-
-
-    useEffect(() => {
-
-        setResultEquation(lastEquationResult)
-    }, [lastEquationResult, firstCard, resultEquation, secondCard])
-
 
     const handleCardClick = (card: CardType) => {
         const isSelected = lastSelectedCardsRedux.some((c) => c.cardId === card.cardId);
+
         if (isSelected) {
             dispatch(removeLastSelectedCard(card)); // Remove a carta clicada do array
-        } else {
+        }
+        else {
+
             if (lastSelectedCardsRedux.length < 2) {
+                setSelectedPair(false)
                 // Adiciona a carta clicada
                 dispatch(setLastSelectedCard(card));
-            } else {
+
+            }
+            else {
                 // Se o array já tiver duas cartas, remove-as antes de adicionar a nova
                 setSelectedPair(true);
                 dispatch(removeLastSelectedCard(lastSelectedCardsRedux[0]));
@@ -59,48 +58,39 @@ const ChallengeLevel: React.FC<ChallengeLevelProps> = ({ children }) => {
         }
 
 
-        if (!lastSelectedCardsRedux.length) {
-            setFirstCard(card.numberCard)
-            setSecondCard(lastSelectedCardsRedux[1].numberCard)
-        }
-        if (secondCard === 0 && firstCard !== 0) {
+        if (secondCard === 0 && firstCard !== 0 && lastSelectedCardsRedux.length === 1) {
+            console.log('Me ache aqui')
             setSecondCard(card.numberCard)
         }
-        // if (firstCard === 0) {
-        //     setFirstCard(card.numberCard);
 
-        // }
-
-        // if (isSelected && secondCard === 0) {
-        //     setFirstCard(0)
-        //     setSecondCard(firstCard)
-        // }
-        // if (firstCard === 0) {
-        //     setFirstCard(card.numberCard);
-        // }
-        if (firstCard !== 0 && secondCard !== 0 && !selectedPair) {
-            setFirstCard(0)
-            setSecondCard(0)
-        }
         else if (secondCard === 0) {
             setSecondCard(card.numberCard);
-            setSelectedPair(true); // Indica que o par de cartas foi selecionado
+            setSelectedPair(true);
         }
-        // else if (lastSelectedCardsRedux.length === 1) {
-        //     setFirstCard(lastSelectedCardsRedux[0].numberCard);
-        //     setSecondCard(lastSelectedCardsRedux[1].numberCard)
-        // }
+        else if (lastSelectedCardsRedux.length === 2 && isSelected && firstCard !== 0) {
+            setFirstCard(lastSelectedCardsRedux[0].numberCard !== 0 ? 0 : lastSelectedCardsRedux[0].numberCard)
+        }
+        else if (lastSelectedCardsRedux.length === 1 && isSelected && secondCard !== 0) {
+
+            setSecondCard(lastSelectedCardsRedux[0].numberCard !== 0 ? 0 : lastSelectedCardsRedux[0].numberCard)
+        }
 
         else if (selectedPair) {
             setFirstCard(secondCard);
             setSecondCard(card.numberCard);
         }
-        else {
+
+        else if (lastSelectedCardsRedux.length === 2) {
             setSelectedPair(true)
-            setFirstCard(lastSelectedCardsRedux[0].numberCard);
-            setSecondCard(lastSelectedCardsRedux[1].numberCard);
+            setFirstCard(lastSelectedCardsRedux[0].numberCard ? lastSelectedCardsRedux[0].numberCard : 0);
+            setSecondCard(lastSelectedCardsRedux[1].numberCard ? lastSelectedCardsRedux[1].numberCard : 0);
         }
     }
+
+
+    useEffect(() => {
+        setResultEquation(lastEquationResult)
+    }, [lastEquationResult, firstCard, resultEquation, secondCard, lastSelectedCardsRedux])
 
 
     const handleNumbers = () => {
@@ -155,7 +145,7 @@ const ChallengeLevel: React.FC<ChallengeLevelProps> = ({ children }) => {
                 const targetValue = simbolOperation === '+' ? firstCardStatement + secondCardStatement : simbolOperation === '-' ? firstCardStatement - secondCardStatement : simbolOperation === 'x' ? firstCardStatement * secondCardStatement : firstCardStatement / secondCardStatement
 
                 const operationText = operationRedux.operationLevel === "+" ? "somatória" : operationRedux.operationLevel === "x" ? "multiplicação" : operationRedux.operationLevel === "÷" ? "divisão" : "subtracao";
-                setStatement(`Selecione os cards cuja ${operationText} de maçãs resultem em ${targetValue.toFixed(2)} unidades.`);
+                setStatement(`Selecione os cards cuja ${operationText} de maçãs resultem em ${Number(targetValue.toFixed(2))} unidades.`);
 
             }
         }
@@ -174,18 +164,6 @@ const ChallengeLevel: React.FC<ChallengeLevelProps> = ({ children }) => {
 
     }, [operationRedux.operationLevel, simbolOperation])
 
-    // const lastSelectedCards = useAppSelector(state => state.cards.lastSelectedCards)
-
-    // lastSelectedCards.find(item => item === renderCards.find(item => item.cardId)?.cardId)
-    // const tesMap = lastSelectedCards.map(item => item)
-
-    // console.log(renderCards)
-    console.log(firstCard)
-    console.log(secondCard)
-    console.log(resultEquation)
-    // console.log(lastSelectedNumbers)
-    console.log(lastEquationResult)
-    // console.log(tesMap)
 
     return (
         <>
