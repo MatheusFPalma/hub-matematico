@@ -1,4 +1,4 @@
-import { Box, CircularProgress, Grid, Typography } from "@mui/material"
+import { Alert, Box, CircularProgress, Grid, Snackbar, Typography } from "@mui/material"
 import CardMemory from "./CardMemory"
 import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
@@ -29,63 +29,71 @@ const ChallengeLevel: React.FC<ChallengeLevelProps> = ({ children }) => {
     const [allRight, setAllRight] = useState<boolean>(true)
     const [selectedPair, setSelectedPair] = useState<boolean>(false);
     const [resultEquation, setResultEquation] = useState<number>(0)
+    const [openAlert, setOpenAlert] = useState<boolean>(false)
+    const [alertMessage, setAlertMessage] = useState<string>('')
 
 
     const historyEquations = useAppSelector((state) => state.challenges.historyEquations)
     const lastEquationResult = historyEquations.length > 0 ? Number(historyEquations[historyEquations.length - 1].result.toFixed(2)) : 0
     const lastSelectedCardsRedux = useAppSelector(state => state.cards.lastSelectedCards)
 
+
     const handleCardClick = (card: CardType) => {
-        const isSelected = lastSelectedCardsRedux.some((c) => c.cardId === card.cardId);
+
+        const isSelected = lastSelectedCardsRedux.some((item) => item.cardId === card.cardId)
 
         if (isSelected) {
-            dispatch(removeLastSelectedCard(card)); // Remove a carta clicada do array
+            dispatch(removeLastSelectedCard(card))
         }
+        else if (lastSelectedCardsRedux.length === 2) {
+            setSelectedPair(true)
+            setAlertMessage('Retire a seleção de uma das cartas para mudar sua escolha')
+            setOpenAlert(true);
+            return;
+        }
+
         else {
-
-            if (lastSelectedCardsRedux.length < 2) {
-                setSelectedPair(false)
-                // Adiciona a carta clicada
-                dispatch(setLastSelectedCard(card));
-
-            }
-            else {
-                // Se o array já tiver duas cartas, remove-as antes de adicionar a nova
-                setSelectedPair(true);
-                dispatch(removeLastSelectedCard(lastSelectedCardsRedux[0]));
-                dispatch(setLastSelectedCard(card));
-            }
+            dispatch(setLastSelectedCard(card))
         }
 
 
+        if (firstCard !== 0 && lastSelectedCardsRedux.length === 1) {
+            setFirstCard(0)
+        }
         if (secondCard === 0 && firstCard !== 0 && lastSelectedCardsRedux.length === 1) {
             console.log('Me ache aqui')
-            setSecondCard(card.numberCard)
+            setFirstCard(0)
+            setSecondCard(0)
         }
 
-        else if (secondCard === 0) {
-            setSecondCard(card.numberCard);
-            setSelectedPair(true);
+        else if (lastSelectedCardsRedux.length === 2 && isSelected && firstCard !== 0 && secondCard == 0) {
+            setFirstCard(lastSelectedCardsRedux[0].numberCard !== 0 ? 0 : lastSelectedCardsRedux[0].numberCard)
         }
-        else if (lastSelectedCardsRedux.length === 2 && isSelected && firstCard !== 0) {
+        else if (lastSelectedCardsRedux.length === 2 && isSelected && firstCard !== 0 && secondCard !== 0) {
+            setFirstCard(lastSelectedCardsRedux[0].numberCard !== 0 ? 0 : lastSelectedCardsRedux[0].numberCard)
+        }
+        else if (lastSelectedCardsRedux.length === 2 && isSelected && firstCard !== 0 && secondCard !== 0) {
+            setSecondCard(lastSelectedCardsRedux[0].numberCard !== 0 ? 0 : lastSelectedCardsRedux[0].numberCard)
+        }
+        else if (lastSelectedCardsRedux.length === 2 && isSelected && secondCard !== 0) {
+            setSecondCard(lastSelectedCardsRedux[0].numberCard !== 0 ? 0 : lastSelectedCardsRedux[0].numberCard)
+        }
+        else if (lastSelectedCardsRedux.length === 1 && isSelected && firstCard !== 0) {
             setFirstCard(lastSelectedCardsRedux[0].numberCard !== 0 ? 0 : lastSelectedCardsRedux[0].numberCard)
         }
         else if (lastSelectedCardsRedux.length === 1 && isSelected && secondCard !== 0) {
-
-            setSecondCard(lastSelectedCardsRedux[0].numberCard !== 0 ? 0 : lastSelectedCardsRedux[0].numberCard)
+            setSecondCard(lastSelectedCardsRedux[0].numberCard !== 0 ? 0 : lastSelectedCardsRedux[1].numberCard)
         }
+
 
         else if (selectedPair) {
             setFirstCard(secondCard);
             setSecondCard(card.numberCard);
         }
-
-        else if (lastSelectedCardsRedux.length === 2) {
-            setSelectedPair(true)
-            setFirstCard(lastSelectedCardsRedux[0].numberCard ? lastSelectedCardsRedux[0].numberCard : 0);
-            setSecondCard(lastSelectedCardsRedux[1].numberCard ? lastSelectedCardsRedux[1].numberCard : 0);
-        }
     }
+
+    console.log(firstCard)
+    console.log(secondCard)
 
 
     useEffect(() => {
@@ -192,6 +200,11 @@ const ChallengeLevel: React.FC<ChallengeLevelProps> = ({ children }) => {
                     )}
                 </Grid>
             </Box>
+            <Snackbar className='styleAlert' open={openAlert} autoHideDuration={2500} onClose={() => setOpenAlert(false)}>
+                <Alert variant='filled' onClose={() => setOpenAlert(false)} severity="warning">
+                    {alertMessage}
+                </Alert>
+            </Snackbar>
         </>
     )
 }
