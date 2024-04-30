@@ -30,9 +30,13 @@ export const cardsSlice = createSlice({
             return state;
         },
         removeLastSelectedCard: (state, action: PayloadAction<CardType>) => {
-            state.lastSelectedCards = state.lastSelectedCards.filter((card) => card.cardId !== action.payload.cardId);
-            return state;
-        },
+            const data = state.lastSelectedCards.find(item => item.cardId === action.payload.cardId)
+            if (data) {
+                const index = state.lastSelectedCards.findIndex((item) => item.cardId === data.cardId)
+                state.lastSelectedCards.splice(index, 1)
+                return state
+            }
+        }
     }
 })
 
