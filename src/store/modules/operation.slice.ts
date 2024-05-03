@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 interface OperationType {
-    operationLevel: '+' | '-' | 'x' | '÷' | '¹/x' | null,
+    operationLevel: '+' | '-' | 'x' | '÷' | null,
     gameLevel: 'Fácil' | 'Médio' | 'Difícil' | null
 }
 

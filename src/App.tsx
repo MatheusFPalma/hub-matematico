@@ -7,11 +7,11 @@ import { store } from "./store"
 
 const App = () => {
   return (
-    <Provider store={store}>
-      <ThemeProvider theme={defaultTheme}>
+    <ThemeProvider theme={defaultTheme}>
+      <Provider store={store}>
         <AppRoutes />
-      </ThemeProvider>
-    </Provider>
+      </Provider>
+    </ThemeProvider>
   )
 }
 

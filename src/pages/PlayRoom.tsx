@@ -8,9 +8,9 @@ const PlayRoom = () => {
     const isOnHomePage = window.location.pathname === "/play-room";
 
     if (isOnHomePage) {
-        document.body.classList.add("challegeLevel");
+        document.body.classList.add("challengeLevel");
     } else {
-        document.body.classList.remove("challegeLevel");
+        document.body.classList.remove("challengeLevel");
     }
 
     return (
