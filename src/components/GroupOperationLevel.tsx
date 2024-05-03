@@ -45,7 +45,7 @@ const GroupOperationLevel: React.FC<GroupOperationLevelProps> = ({
             firstNumber: firstCard,
             secondNumber: secondCard,
             operation: operationLevel,
-            result: !firstCard && !secondCard ? 0 : result
+            result: !firstCard && !secondCard ? 0 : result,
         }));
 
 
