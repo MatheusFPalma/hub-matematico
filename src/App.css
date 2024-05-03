@@ -33,7 +33,7 @@ body {
   cursor: pointer;
 }
 
-.buttonChallenger:hover {
+.buttonChoiceLevel:hover {
   transform: scale(1.03);
   background-color: #bf5a10;
 }
