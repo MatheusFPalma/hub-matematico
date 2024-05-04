@@ -55,7 +55,7 @@ export const challengeSlice = createSlice({
     name: 'getHistory',
     initialState,
     reducers: {
-        addEquationHistory: (state, action: PayloadAction<EquationType>) => {
+        updateInfoOperation: (state, action: PayloadAction<EquationType>) => {
             state.firstNumber = action.payload.firstNumber
             state.secondNumber = action.payload.secondNumber
             state.operation = action.payload.operation
@@ -65,5 +65,5 @@ export const challengeSlice = createSlice({
     }
 })
 
-export const { addEquationHistory } = challengeSlice.actions
+export const { updateInfoOperation } = challengeSlice.actions
 export default challengeSlice.reducer
