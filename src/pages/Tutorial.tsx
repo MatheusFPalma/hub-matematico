@@ -1,22 +1,21 @@
 import { Box, Typography } from "@mui/material"
 import { Colors } from "../components/utils/colors"
-import videoTest from "../../public/tutorialVideoTeste.mp4"
 import useQuery from "../hooks/useQuery"
 import { useNavigate } from "react-router-dom"
 import { useEffect } from "react"
 
-const tutorialDetails: Record<string, { title: string; video: string }> = {
+const tutorialDetails: Record<string, { title: string }> = {
   "1": {
     title: "modo fácil",
-    video: videoTest,
+    // video: videoTest,
   },
   "2": {
     title: "modo médio",
-    video: videoTest,
+    // video: videoTest,
   },
   "3": {
     title: "modo difícil",
-    video: videoTest,
+    // video: videoTest,
   },
 }
 
@@ -52,7 +51,7 @@ export default function Tutorial() {
         </Box>
         <Box>
           <video height={"500px"} controls style={{ borderRadius: "20px" }}>
-            <source src={tutorialDetails[tutorialId].video} type="video/mp4" />
+            {/* <source src={tutorialDetails[tutorialId].video} type="video/mp4" /> */}
           </video>
         </Box>
       </Box>
