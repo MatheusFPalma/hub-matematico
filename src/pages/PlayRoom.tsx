@@ -63,11 +63,6 @@ const PlayRoom = () => {
 
 
     useEffect(() => {
-        console.log(targetValueLastStatement)
-        console.log(resultLastOperation.result)
-    }, [])
-
-    useEffect(() => {
         const resultCards = handleNumbers()
         setOperation(operationRedux.operationLevel)
         setRenderCards(resultCards)
