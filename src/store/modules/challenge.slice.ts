@@ -1,38 +1,13 @@
-// import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-
-// export interface EquationType {
-//     firstNumber: number;
-//     secondNumber: number;
-//     operation: string | null;
-//     result: number;
-// }
-
-// interface ChallengeState {
-//     historyEquations: EquationType[];
-// }
-
-// export const initialState: ChallengeState = {
-//     historyEquations: []
-// }
-
-// export const challengeSlice = createSlice({
-//     name: 'getHistory',
-//     initialState,
-//     reducers: {
-//         addEquationHistory: (state, action: PayloadAction<EquationType>) => {
-//             state.historyEquations.push(action.payload)
-//             return state
-//         }
-//     }
-// })
-
-// export const { addEquationHistory } = challengeSlice.actions
-// export default challengeSlice.reducer
-
 
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-export interface EquationType {
+interface PointRules {
+    pointsPerQuestion: number
+    scoreCurrentLevel: number,
+    scoreTotal: number,
+}
+
+export interface ChallengeType {
     firstNumber: number;
     secondNumber: number;
     operation: '+' | '-' | 'x' | '÷' | null
@@ -40,30 +15,44 @@ export interface EquationType {
 }
 
 interface ChallengeState {
-
-    // historyEquations: EquationType[];
+    equations: {
+        firstNumber: number,
+        secondNumber: number,
+        operation: '+' | '-' | 'x' | '÷' | null
+        result: number,
+    },
+    rules: PointRules
 }
 
-export const initialState: EquationType = {
-    firstNumber: 0,
-    secondNumber: 0,
-    operation: null,
-    result: 0,
+export const initialState: ChallengeState = {
+    equations: {
+        firstNumber: 0,
+        secondNumber: 0,
+        operation: null,
+        result: 0
+    },
+    rules: {} as PointRules
 }
 
 export const challengeSlice = createSlice({
     name: 'getHistory',
     initialState,
     reducers: {
-        updateInfoOperation: (state, action: PayloadAction<EquationType>) => {
-            state.firstNumber = action.payload.firstNumber
-            state.secondNumber = action.payload.secondNumber
-            state.operation = action.payload.operation
-            state.result = action.payload.result
+        updateInfoOperation: (state, action: PayloadAction<ChallengeType>) => {
+            state.equations.firstNumber = action.payload.firstNumber
+            state.equations.secondNumber = action.payload.secondNumber
+            state.equations.operation = action.payload.operation
+            state.equations.result = action.payload.result
+            return state
+        },
+        setPointsRules: (state, action: PayloadAction<PointRules>) => {
+            state.rules.pointsPerQuestion = action.payload.pointsPerQuestion,
+                state.rules.scoreCurrentLevel = action.payload.scoreCurrentLevel,
+                state.rules.scoreTotal = action.payload.scoreTotal
             return state
         }
     }
 })
 
-export const { updateInfoOperation } = challengeSlice.actions
+export const { updateInfoOperation, setPointsRules } = challengeSlice.actions
 export default challengeSlice.reducer
