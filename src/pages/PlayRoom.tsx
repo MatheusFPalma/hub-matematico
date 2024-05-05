@@ -7,6 +7,11 @@ import { useEffect, useState } from "react";
 import { CardType, getCards } from "../store/modules/cards.slice";
 import { v4 as createUuid } from "uuid"
 import apple from "/apple_level_One.png"
+import { Alert, Grid } from "@mui/material";
+import Snackbar from "@mui/material/Snackbar"
+import StatusGain from "../components/StatusGain";
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import { Link } from "react-router-dom";
 
 const PlayRoom = () => {
     const isOnHomePage = window.location.pathname === "/play-room";
@@ -26,6 +31,27 @@ const PlayRoom = () => {
 
     const [renderCards, setRenderCards] = useState<CardType[]>([])
     const [operation, setOperation] = useState<"+" | "-" | "x" | "÷" | null>(null)
+    const [countdown, setCountdown] = useState<number>(8);
+    const [isPaused, setIsPaused] = useState<boolean>(false)
+    const [openAlert, setOpenAlert] = useState<boolean>(false)
+    const [alertMessage, setAlertMessage] = useState<string>('')
+    const [itRight, setItRight] = useState<boolean | null>(null)
+
+
+    const startTimer = () => {
+        setTimeout(() => {
+            if (!isPaused) {
+                if (countdown !== 0) {
+                    setCountdown(countdown - 1)
+                    return countdown
+                }
+                else if (countdown === 0) {
+                    setIsPaused(true)
+                    return setCountdown(0)
+                }
+            }
+        }, 1000)
+    }
 
     const handleNumbers = () => {
         const newCards: CardType[] = [];
@@ -46,34 +72,72 @@ const PlayRoom = () => {
         return newCards
     };
 
-    const isSelectedPair = lastSelectedCardsRedux.length < 2
-    const checkSelecion = targetValueLastStatement === resultLastOperation.result
+    const notIsSelectedPair = lastSelectedCardsRedux.length < 2
+    const checkResult = targetValueLastStatement === resultLastOperation.equations.result
 
     const handleConfirmSelection = () => {
-        if (isSelectedPair) {
-            return alert('Você selecionou apenas uma carta para o resultado')
+        if (countdown === 0) {
+            setAlertMessage("Oh não! Tempo esgotado")
+            setOpenAlert(true)
+            setItRight(false)
         }
-        else if (checkSelecion) {
-            alert('Parabéns você acertou')
+        if (notIsSelectedPair && countdown !== 0) {
+            setAlertMessage('Você selecionou apenas uma carta para o resultado')
+            setOpenAlert(true)
+        }
+        else if (checkResult) {
+            setItRight(true)
         }
         else {
-            alert('Tente novamente')
+            setItRight(false)
         }
     }
 
+    useEffect(() => {
+        startTimer();
+        if (countdown === 0 && !itRight) {
+            setAlertMessage("Oh não! Tempo esgotado")
+            setOpenAlert(true)
+            setItRight(false)
+        }
+    }, [renderCards, countdown, isPaused])
 
     useEffect(() => {
         const resultCards = handleNumbers()
         setOperation(operationRedux.operationLevel)
         setRenderCards(resultCards)
 
-
     }, [operation])
 
     return (
         <div style={{ marginBottom: '80px' }}>
-            <ChallengeLevel renderCards={renderCards} children={<DisplayScore score={0} />} />
-            <ButtonDefault action={handleConfirmSelection} customStyle={'buttonConfirm'} label={'Confirmar'} styleWidth={'60%'} styleHeight={60} />
+            {itRight !== null ? (
+                <>
+                    <StatusGain children={
+                        <Grid container item sx={{ paddingBottom: '25px', flexDirection: 'column', justifyContent: 'center', textAlign: 'center' }}>
+                            <Link to={'/tutorial'}><ChevronLeftIcon sx={{ display: 'flex', width: '35px', padding: '0px 40px 40px 0px', height: '35px', color: '#fff', alignItems: 'flex-start' }} /></Link>
+                        </Grid>
+                    } right={itRight} />
+                </>
+            )
+                : (
+                    <>
+                        <ChallengeLevel renderCards={renderCards} children={<>
+                            <Grid container sx={{ flexDirection: 'column', paddingTop: '20px' }} className={countdown !== 0 ? "styleTimer" : "pausedStyleTimer"}>
+                                {countdown}<span style={{ padding: '0px 0px 0px 8px', fontFamily: "Verdana,sans-serif", fontSize: '16px' }}>segundos</span>
+                            </Grid>
+                            <DisplayScore score={0} />
+                        </>} />
+                        <ButtonDefault action={handleConfirmSelection} customStyle={'buttonConfirm'} label={'Confirmar'} styleWidth={'60%'} styleHeight={60} />
+                    </>
+                )}
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <Snackbar anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }} open={openAlert} autoHideDuration={2200} onClose={() => setOpenAlert(false)}>
+                    <Alert variant='filled' onClose={() => setOpenAlert(false)} severity="warning">
+                        {alertMessage}
+                    </Alert>
+                </Snackbar>
+            </div>
         </div>
     )
 }
