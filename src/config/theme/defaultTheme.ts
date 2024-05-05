@@ -5,7 +5,7 @@ const defaultTheme = createTheme({
         primary: {
             main: '#f5f5f5',
             dark: "#2b3b2b",
-            light: "##A4CAA4"
+            light: "#A4CAA4"
         },
         secondary: {
             main: '#365435',
