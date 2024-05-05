@@ -14,12 +14,7 @@ export const operationSlice = createSlice({
     name: "operation",
     initialState,
     reducers: {
-        getOperationOne: (state, action: PayloadAction<OperationType>) => {
-            state.operationLevel = action.payload.operationLevel
-            state.gameLevel = action.payload.gameLevel
-            return state
-        },
-        getOperationTwo: (state, action: PayloadAction<OperationType>) => {
+        getOperation: (state, action: PayloadAction<OperationType>) => {
             state.operationLevel = action.payload.operationLevel
             state.gameLevel = action.payload.gameLevel
             return state
@@ -27,5 +22,5 @@ export const operationSlice = createSlice({
     }
 })
 
-export const { getOperationOne, getOperationTwo } = operationSlice.actions
+export const { getOperation } = operationSlice.actions
 export default operationSlice.reducer
