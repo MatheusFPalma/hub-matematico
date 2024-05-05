@@ -8,12 +8,53 @@ import { useState } from "react"
 import { useAppDispatch } from "../store/hooks"
 import { getOperation } from "../store/modules/operation.slice"
 import { useNavigate } from "react-router-dom"
-import setRules from "../components/utils/setRulesPoints"
+import { setPointsRules } from "../store/modules/challenge.slice"
 
 const ChoiceLevel = () => {
   const navigate = useNavigate()
   const [currentLevel, setCurrentLevel] = useState<string>("")
   const dispatch = useAppDispatch()
+
+  const objectLevelEasy = {
+    scoreCurrentLevel: 0,
+    scoreTotal: 0,
+    pointsPerQuestion: 5
+  }
+
+  const objectLevelMidle = {
+    scoreCurrentLevel: 0,
+    scoreTotal: 0,
+    pointsPerQuestion: 10
+  }
+
+  const objectLevelHard = {
+    scoreCurrentLevel: 0,
+    scoreTotal: 0,
+    pointsPerQuestion: 15
+  }
+
+
+  const setRules = (level: string) => {
+    const dispatch = useAppDispatch()
+
+    switch (level) {
+      case "Fácil":
+        dispatch(setPointsRules(
+          objectLevelEasy
+        ))
+        break;
+      case "Médio":
+        dispatch(setPointsRules(
+          objectLevelMidle
+        ))
+        break;
+      case "Difícil":
+        dispatch(setPointsRules(
+          objectLevelHard
+        ))
+        break;
+    }
+  }
 
 
   function getLevel(level: string) {
