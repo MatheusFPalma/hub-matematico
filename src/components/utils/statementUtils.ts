@@ -1,4 +1,4 @@
-const calculateTargetValue = (firstCard: number, secondCard: number, operation: string): number => {
+const calculateTargetValue = (firstCard: number, secondCard: number, operation: string | null): number => {
     switch (operation) {
         case '+':
             return firstCard + secondCard;
