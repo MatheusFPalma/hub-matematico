@@ -7,7 +7,7 @@ import { updateInfoOperation } from "../store/modules/challenge.slice";
 interface GroupOperationLevelProps {
     firstCard: number
     secondCard: number;
-    operation: string,
+    operation: string | null,
 }
 
 const GroupOperationLevel: React.FC<GroupOperationLevelProps> = ({
