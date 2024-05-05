@@ -35,7 +35,6 @@ const ChoiceLevel = () => {
 
 
   const setRules = (level: string) => {
-    const dispatch = useAppDispatch()
 
     switch (level) {
       case "Fácil":
