@@ -4,8 +4,6 @@ import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { CardType, removeLastSelectedCard, setLastSelectedCard, valueCurrentStatement } from "../store/modules/cards.slice";
 import signalIqual from "/signal_iqual.png"
-import apple from "/apple_level_One.png"
-import { v4 as createUuid } from "uuid"
 import GroupOperationLevel from "./GroupOperationLevel";
 import CardResult from "./CardResult";
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
@@ -22,9 +20,7 @@ const ChallengeLevel: React.FC<ChallengeLevelProps> = ({ children, renderCards }
     const dispatch = useAppDispatch()
     const operationRedux = useAppSelector((state) => state.operations)
 
-    // const [renderCards, setRenderCards] = useState<CardType[]>([])
-
-    const [simbolOperation, setSimbolOperation] = useState<string>('')
+    const [simbolOperation, setSimbolOperation] = useState<string | null>('')
     const [statement, setStatement] = useState<string>('')
     const [firstCard, setFirstCard] = useState<number>(0);
     const [secondCard, setSecondCard] = useState<number>(0);
@@ -118,14 +114,15 @@ const ChallengeLevel: React.FC<ChallengeLevelProps> = ({ children, renderCards }
     }
 
     useEffect(() => {
-        const lastEquationResult = resultLastOperation.result
+        const lastEquationResult = resultLastOperation.equations.result
+        setSimbolOperation(resultLastOperation.equations.operation)
         setResultEquation(lastEquationResult)
     }, [firstCard, resultEquation, secondCard, lastSelectedCardsRedux])
 
 
     useEffect(() => {
         currentStatement()
-    }, [firstCard, secondCard, operationRedux.operationLevel, allRight])
+    }, [firstCard, secondCard, operationRedux.operationLevel, simbolOperation, allRight])
 
 
     useEffect(() => {
@@ -135,7 +132,7 @@ const ChallengeLevel: React.FC<ChallengeLevelProps> = ({ children, renderCards }
 
     return (
         <>
-            <Box sx={{ display: 'flex', flexFlow: 'column' }}>
+            <Box sx={{ display: 'flex', flexFlow: 'column', paddingTop: '20px' }}>
                 <Grid item sx={{ display: 'flex', alignItems: 'flex-end' }}>
                     {children}
                 </Grid>
@@ -160,7 +157,7 @@ const ChallengeLevel: React.FC<ChallengeLevelProps> = ({ children, renderCards }
                     )}
                 </Grid>
             </Box>
-            <Snackbar className='styleAlert' open={openAlert} autoHideDuration={2000} onClose={() => setOpenAlert(false)}>
+            <Snackbar anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }} open={openAlert} autoHideDuration={2000} onClose={() => setOpenAlert(false)}>
                 <Alert variant='filled' onClose={() => setOpenAlert(false)} severity="warning">
                     {alertMessage}
                 </Alert>
