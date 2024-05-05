@@ -6,29 +6,34 @@ import maticGame from "/maticGame.png"
 import "../App.css"
 import { useState } from "react"
 import { useAppDispatch } from "../store/hooks"
-import { getOperationOne } from "../store/modules/operation.slice"
+import { getOperation } from "../store/modules/operation.slice"
 import { useNavigate } from "react-router-dom"
+import setRules from "../components/utils/setRulesPoints"
 
 const ChoiceLevel = () => {
   const navigate = useNavigate()
   const [currentLevel, setCurrentLevel] = useState<string>("")
   const dispatch = useAppDispatch()
 
+
   function getLevel(level: string) {
     switch (level) {
       case "Fácil":
         setCurrentLevel("Facil")
-        dispatch(getOperationOne({ operationLevel: "+", gameLevel: "Fácil" }))
+        dispatch(getOperation({ operationLevel: "+", gameLevel: "Fácil" }))
+        setRules(level)
         navigate("/play-room")
         break
       case "Médio":
         setCurrentLevel("Médio")
-        dispatch(getOperationOne({ operationLevel: "x", gameLevel: "Médio" }))
+        dispatch(getOperation({ operationLevel: "x", gameLevel: "Médio" }))
+        setRules(level)
         navigate("/play-room")
         break
       case "Difícil":
         setCurrentLevel("Difícil")
-        dispatch(getOperationOne({ operationLevel: "÷", gameLevel: "Difícil" }))
+        dispatch(getOperation({ operationLevel: "÷", gameLevel: "Difícil" }))
+        setRules(level)
         navigate("/play-room")
         break
     }
