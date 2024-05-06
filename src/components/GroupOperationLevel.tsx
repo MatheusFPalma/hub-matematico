@@ -1,12 +1,13 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { sum, subtract, multiply, divide } from "./utils/mathUtils";
-import { addEquationHistory } from "../store/modules/challenge.slice"
+import { updateInfoOperation } from "../store/modules/challenge.slice";
+// import { addEquationHistory } from "../store/modules/challenge.slice"
 
 interface GroupOperationLevelProps {
     firstCard: number
     secondCard: number;
-    operation: string,
+    operation: string | null,
 }
 
 const GroupOperationLevel: React.FC<GroupOperationLevelProps> = ({
@@ -41,15 +42,15 @@ const GroupOperationLevel: React.FC<GroupOperationLevelProps> = ({
             }
         }
 
-        dispatch(addEquationHistory({
+        dispatch(updateInfoOperation({
             firstNumber: firstCard,
             secondNumber: secondCard,
             operation: operationLevel,
-            result: !firstCard && !secondCard ? 0 : result
+            result,
         }));
 
 
-    }, [firstCard, secondCard, operation, dispatch, operationLevel]);
+    }, [firstCard, secondCard, operation, operationLevel]);
 
     return null
 }

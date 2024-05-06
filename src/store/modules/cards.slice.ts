@@ -10,11 +10,13 @@ export interface CardType {
 interface CardState {
     cards: CardType[]
     lastSelectedCards: CardType[];
+    targetCurrentStatement: number
 }
 
 export const initialState: CardState = {
     cards: [],
     lastSelectedCards: [],
+    targetCurrentStatement: 0
 }
 
 export const cardsSlice = createSlice({
@@ -36,9 +38,16 @@ export const cardsSlice = createSlice({
                 state.lastSelectedCards.splice(index, 1)
                 return state
             }
+        },
+        clearSelectedCards: (state, action) => {
+
+        },
+        valueCurrentStatement: (state, action) => {
+            state.targetCurrentStatement = action.payload
+            return state
         }
     }
 })
 
-export const { getCards, setLastSelectedCard, removeLastSelectedCard } = cardsSlice.actions
+export const { getCards, setLastSelectedCard, removeLastSelectedCard, valueCurrentStatement } = cardsSlice.actions
 export default cardsSlice.reducer
