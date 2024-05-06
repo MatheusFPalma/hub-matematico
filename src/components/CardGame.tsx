@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material"
+import { Box, Typography, useMediaQuery, useTheme } from "@mui/material"
 import vectorDivider from "../../public/vectorDivider.svg"
 import { ReactNode } from "react"
 import { Colors } from "./utils/colors"
@@ -11,6 +11,8 @@ interface Props {
 }
 
 export default function CardGame({ title, image, disabled = false }: Props) {
+  const theme = useTheme()
+  const isXs = useMediaQuery(theme.breakpoints.only("xs"))
   return (
     <Box
       component={Link}
@@ -22,30 +24,35 @@ export default function CardGame({ title, image, disabled = false }: Props) {
       alignItems={"flex-start"}
       borderRadius={"15px"}
       color={"white"}
-      padding={!disabled ? "10px 30px" : "0px"}
+      padding={isXs ? "15px 15px" : !disabled ? "10px 30px" : "0px"}
       sx={
         !disabled
           ? {}
           : {
               backgroundImage: "url(/public/backgroundNotGame.png)",
-              backgroundSize: "140%",
+              backgroundSize: isXs ? "200%" : "140%",
               backgroundPosition: "center",
             }
       }
     >
       {!disabled ? (
         <>
-          <Typography variant="h6" fontSize={40} color={Colors.white}>
+          <Typography
+            variant="h6"
+            fontSize={{ xs: 30, md: 40 }}
+            color={Colors.white}
+            lineHeight={isXs ? 1 : 1.6}
+          >
             {title}
           </Typography>
-          <img src={vectorDivider} height={"15px"} />
-          <img src={image} height={"100px"} />
+          <img src={vectorDivider} height={isXs ? "5px" : "15px"} />
+          <img src={image} height={isXs ? "50px" : "100px"} />
         </>
       ) : (
         <>
           <Box padding={"30px"}>
             <Typography variant="h6" fontSize={30} color={Colors.white}>
-              {title}
+              {isXs ? "" : title}
             </Typography>
           </Box>
         </>

@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material"
+import { Box, Typography, useMediaQuery, useTheme } from "@mui/material"
 import { Colors } from "../components/utils/colors"
 import videoTest from "../../public/tutorialVideoTeste.mp4"
 import useQuery from "../hooks/useQuery"
@@ -22,6 +22,8 @@ const tutorialDetails: Record<string, { title: string; video: string }> = {
 
 export default function Tutorial() {
   const navigate = useNavigate()
+  const theme = useTheme()
+  const isXs = useMediaQuery(theme.breakpoints.only("xs"))
 
   let query = useQuery()
   const tutorialId = query.get("id")
@@ -37,21 +39,35 @@ export default function Tutorial() {
   }
 
   return (
-    <Box height={"100vh"} width={"100vw"} bgcolor={Colors.green}>
+    <Box
+      minHeight={"100vh"}
+      minWidth={"100vw"}
+      bgcolor={Colors.green}
+      display={"flex"}
+      alignItems={"center"}
+      justifyContent={"center"}
+    >
       <Box
-        padding={"50px"}
+        padding={{ xs: "20px", md: "50px" }}
         display={"flex"}
         flexDirection={"column"}
         gap={"20px"}
-        alignItems={"center"}
       >
         <Box>
-          <Typography variant="h2" color={Colors.white} fontSize={40}>
+          <Typography
+            variant="h6"
+            color={Colors.white}
+            fontSize={isXs ? 30 : 40}
+          >
             Aprenda como jogar o MaticGame: {tutorialDetails[tutorialId].title}
           </Typography>
         </Box>
         <Box>
-          <video height={"500px"} controls style={{ borderRadius: "20px" }}>
+          <video
+            height={isXs ? "180px" : "500px"}
+            controls
+            style={{ borderRadius: "20px" }}
+          >
             <source src={tutorialDetails[tutorialId].video} type="video/mp4" />
           </video>
         </Box>
