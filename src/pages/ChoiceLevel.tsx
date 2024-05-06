@@ -8,6 +8,7 @@ import { useState } from "react"
 import { useAppDispatch } from "../store/hooks"
 import { getOperationOne } from "../store/modules/operation.slice"
 import { useNavigate } from "react-router-dom"
+import { Colors } from "../components/utils/colors"
 
 const ChoiceLevel = () => {
   const navigate = useNavigate()
@@ -17,21 +18,17 @@ const ChoiceLevel = () => {
   function getLevel(level: string) {
     switch (level) {
       case "Fácil":
-        setCurrentLevel("Facil")
         dispatch(getOperationOne({ operationLevel: "+", gameLevel: "Fácil" }))
-        navigate("/play-room")
         break
       case "Médio":
-        setCurrentLevel("Médio")
         dispatch(getOperationOne({ operationLevel: "x", gameLevel: "Médio" }))
-        navigate("/play-room")
         break
       case "Difícil":
-        setCurrentLevel("Difícil")
         dispatch(getOperationOne({ operationLevel: "÷", gameLevel: "Difícil" }))
-        navigate("/play-room")
         break
     }
+    setCurrentLevel(level)
+    navigate(`/home?level=${level}`)
   }
 
   return (
@@ -67,7 +64,7 @@ const ChoiceLevel = () => {
             fontFamily: "Fredoka, sans-serif",
             fontSize: "25.41px",
             fontWeight: 600,
-            color: "#426141",
+            color: Colors.green,
           }}
         >
           Selecione seu nível de dificuldade

@@ -7,6 +7,7 @@ import { Box, Button, useMediaQuery, useTheme } from "@mui/material"
 import CardWelcome from "../components/CardWelcome"
 import { ReactNode, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
+import { Colors } from "../components/utils/colors"
 
 const initialText = (
   <>
@@ -116,7 +117,7 @@ function Onboarding() {
               variant="contained"
               size="small"
               style={{
-                backgroundColor: "#365435",
+                backgroundColor: Colors.green,
                 color: "white",
                 textTransform: "none",
                 width: "150px",

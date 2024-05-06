@@ -1,5 +1,6 @@
 import { Box, Button, useMediaQuery, useTheme } from "@mui/material"
 import React from "react"
+import { Colors } from "./utils/colors"
 
 interface Prop {
   image: string
@@ -30,7 +31,7 @@ function CardWelcome({ image, text, onClick }: Prop) {
         gap="10px"
         maxWidth={{ xs: "90%", md: "50%" }}
         fontSize="15px"
-        color="#365435"
+        color={Colors.green}
         fontFamily="Nunito, sans-serif"
         fontWeight={500}
       >
@@ -42,7 +43,7 @@ function CardWelcome({ image, text, onClick }: Prop) {
             variant="contained"
             size="small"
             style={{
-              backgroundColor: "#365435",
+              backgroundColor: Colors.green,
               color: "white",
               textTransform: "none",
               width: "40%",
