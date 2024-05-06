@@ -69,8 +69,8 @@ body {
 
 .buttonMakeAgain:hover {
   transform: scale(1.04);
-  background-color: #a4caa4;
-  color: #365435;
+  background-color: #bf5a10;
+  color: #e1e1e4;
 }
 
 .buttonConfirm {
@@ -87,8 +87,8 @@ body {
 
 .buttonConfirm:hover {
   transform: scale(1.04);
-  background-color: #e1e1e4;
-  color: #365435;
+  background-color: #bf5a10;
+  color: #e1e1e4;
 }
 
 .styleCard:hover {
