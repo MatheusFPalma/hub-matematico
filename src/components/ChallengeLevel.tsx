@@ -45,7 +45,6 @@ const ChallengeLevel: React.FC<ChallengeLevelProps> = ({ children, renderCards }
                 // Se for, limpa o valor de secondCard
                 setSecondCard(0);
             }
-
         }
 
         else {
