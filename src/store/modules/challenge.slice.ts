@@ -2,10 +2,17 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 interface PointRules {
-    pointsPerQuestion: number
-    scoreCurrentLevel: number,
-    scoreTotal: number,
+    pointsPerQuestion: number | undefined
+    scoreCurrentLevel: number | undefined,
+    countHits: number
 }
+
+interface LevelPoints {
+    scoreEachLevel: number | undefined
+    scoreTotal: number[]
+}
+
+interface LevelState extends Partial<LevelPoints>, Partial<PointRules> { }
 
 export interface ChallengeType {
     firstNumber: number;
@@ -22,6 +29,7 @@ interface ChallengeState {
         result: number,
     },
     rules: PointRules
+    score: LevelPoints
 }
 
 export const initialState: ChallengeState = {
@@ -31,7 +39,8 @@ export const initialState: ChallengeState = {
         operation: null,
         result: 0
     },
-    rules: {} as PointRules
+    rules: {} as PointRules,
+    score: {} as LevelPoints
 }
 
 export const challengeSlice = createSlice({
@@ -48,11 +57,17 @@ export const challengeSlice = createSlice({
         setPointsRules: (state, action: PayloadAction<PointRules>) => {
             state.rules.pointsPerQuestion = action.payload.pointsPerQuestion,
                 state.rules.scoreCurrentLevel = action.payload.scoreCurrentLevel,
-                state.rules.scoreTotal = action.payload.scoreTotal
+                state.rules.countHits = action.payload.countHits
+            return state
+        },
+        updateScore: (state, action: PayloadAction<LevelState>) => {
+            state.rules.scoreCurrentLevel = action.payload.countHits! * action.payload.pointsPerQuestion!
+            state.score.scoreEachLevel = action.payload.scoreCurrentLevel
+            state.score.scoreTotal.push(action.payload.scoreEachLevel!)
             return state
         }
     }
 })
 
-export const { updateInfoOperation, setPointsRules } = challengeSlice.actions
+export const { updateInfoOperation, setPointsRules, updateScore } = challengeSlice.actions
 export default challengeSlice.reducer
