@@ -14,9 +14,9 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { Link } from "react-router-dom";
 
 const PlayRoom = () => {
-    const isOnHomePage = window.location.pathname === "/play-room";
+    const isOnPlayRoom = window.location.pathname === "/play-room";
 
-    if (isOnHomePage) {
+    if (isOnPlayRoom) {
         document.body.classList.add("challengeLevel");
     } else {
         document.body.classList.remove("challengeLevel");
@@ -40,7 +40,10 @@ const PlayRoom = () => {
 
     const startTimer = () => {
         setTimeout(() => {
-            if (!isPaused) {
+            if (isPaused) {
+                setCountdown(countdown)
+            }
+            else {
                 if (countdown !== 0) {
                     setCountdown(countdown - 1)
                     return countdown
@@ -51,6 +54,7 @@ const PlayRoom = () => {
                 }
             }
         }, 1000)
+
     }
 
     const handleNumbers = () => {
@@ -72,7 +76,7 @@ const PlayRoom = () => {
         return newCards
     };
 
-    const notIsSelectedPair = lastSelectedCardsRedux.length < 2
+    const notIsSelectedPair = lastSelectedCardsRedux.length <= 1
     const checkResult = targetValueLastStatement === resultLastOperation.equations.result
 
     const handleConfirmSelection = () => {
@@ -82,11 +86,12 @@ const PlayRoom = () => {
             setItRight(false)
         }
         if (notIsSelectedPair && countdown !== 0) {
-            setAlertMessage('Você selecionou apenas uma carta para o resultado')
+            setAlertMessage('Você não selecionou um par de cartas para o resultado')
             setOpenAlert(true)
         }
         else if (checkResult) {
             setItRight(true)
+            setIsPaused(true)
         }
         else {
             setItRight(false)
@@ -95,12 +100,12 @@ const PlayRoom = () => {
 
     useEffect(() => {
         startTimer();
-        if (countdown === 0 && !itRight) {
-            setAlertMessage("Oh não! Tempo esgotado")
-            setOpenAlert(true)
-            setItRight(false)
-        }
-    }, [renderCards, countdown, isPaused])
+        // if (countdown === 0 && !itRight) {
+        //     setItRight(false)
+        //     setAlertMessage("Oh não! Tempo esgotado")
+        //     setOpenAlert(true)
+        // }
+    }, [renderCards, countdown, isPaused, itRight])
 
     useEffect(() => {
         const resultCards = handleNumbers()
