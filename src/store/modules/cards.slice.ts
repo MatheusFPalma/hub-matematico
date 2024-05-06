@@ -39,6 +39,9 @@ export const cardsSlice = createSlice({
                 return state
             }
         },
+        clearSelectedCards: (state, action) => {
+
+        },
         valueCurrentStatement: (state, action) => {
             state.targetCurrentStatement = action.payload
             return state
