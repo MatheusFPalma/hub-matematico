@@ -19,19 +19,22 @@ const ChoiceLevel = () => {
   const objectLevelEasy = {
     scoreCurrentLevel: 0,
     pointsPerQuestion: 5,
-    countHits: 0
+    countHits: 0,
+    scoreTotal: []
   }
 
   const objectLevelMidle = {
     scoreCurrentLevel: 0,
     pointsPerQuestion: 10,
-    countHits: 0
+    countHits: 0,
+    scoreTotal: []
   }
 
   const objectLevelHard = {
     scoreCurrentLevel: 0,
     pointsPerQuestion: 15,
-    countHits: 0
+    countHits: 0,
+    scoreTotal: []
   }
 
 
