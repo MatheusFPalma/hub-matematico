@@ -7,7 +7,6 @@ import sad from '/sad.png'
 import { Grid } from '@mui/material'
 import { useTheme } from '@mui/material'
 import { setPointsRules, updateScore } from '../store/modules/challenge.slice'
-import { useNavigate } from 'react-router-dom'
 
 interface StatusGainProps {
     right: boolean | null
@@ -24,22 +23,24 @@ const StatusGain: React.FC<StatusGainProps> = ({ right, children }) => {
 
     const [countHits, setCountHits] = useState<number>(0)
     const [wrongs, setWrongs] = useState<number>(0)
-    const [pointsPerQuestionLevel, setPointsPerQuestionLevel] = useState<number | undefined>(0)
-    const [pointCurrentLevel, setPointCurrentLevel] = useState<number | undefined>(0)
+    const [pointsPerQuestionLevel, setPointsPerQuestionLevel] = useState<number>(0)
+    const [pointCurrentLevel, setPointCurrentLevel] = useState<number>(0)
     const [lifes, setLifes] = useState<number>(0)
-    const [scoreTotal, setScoreTotal] = useState<number[] | undefined>([])
-    const [newChallenge, setNewChallenge] = useState<boolean>(false)
+    const [scoreTotal, setScoreTotal] = useState<number[]>([])
 
     const incrementHits = () => {
         if (right) {
+            dispatch(updateScore({
+                scoreCurrentLevel: pointCurrentLevel,
+                pointsPerQuestion: pointsPerQuestionLevel,
+                scoreTotal: []
+            }))
             setCountHits(countHits + 1)
             if (pointsPerQuestionLevel) {
-                dispatch(setPointsRules({ countHits, pointsPerQuestion: pointsPerQuestionLevel, scoreCurrentLevel: countHits * pointsPerQuestionLevel }))
+                dispatch(setPointsRules({ countHits, pointsPerQuestion: pointsPerQuestionLevel, scoreCurrentLevel: countHits * pointsPerQuestionLevel, scoreTotal }))
             }
-            setNewChallenge(true)
         }
         setCountHits(countHits)
-
     }
 
     const checkPoints = () => {
@@ -48,8 +49,9 @@ const StatusGain: React.FC<StatusGainProps> = ({ right, children }) => {
             setScoreTotal((prevstate: any) => [...prevstate, pointCurrentLevel])
 
             dispatch(updateScore({
-                scoreEachLevel: pointCurrentLevel,
-                scoreTotal
+                scoreCurrentLevel: pointCurrentLevel,
+                pointsPerQuestion: pointsPerQuestionLevel,
+                scoreTotal: []
             }))
         }
         else {
@@ -61,7 +63,11 @@ const StatusGain: React.FC<StatusGainProps> = ({ right, children }) => {
                 setLifes(lifes - 1)
             }
         }
-        setNewChallenge(true)
+        dispatch(updateScore({
+            scoreCurrentLevel: pointCurrentLevel,
+            pointsPerQuestion: pointsPerQuestionLevel,
+            scoreTotal: []
+        }))
     }
 
     const wrongResponse = () => {
@@ -73,8 +79,10 @@ const StatusGain: React.FC<StatusGainProps> = ({ right, children }) => {
 
     useEffect(() => {
         setLifes(lifesRedux.lifes)
-        setPointsPerQuestionLevel(pointsRedux.pointsPerQuestion)
-        setPointCurrentLevel(pointsRedux.scoreCurrentLevel)
+        if (pointsRedux.pointsPerQuestion > 0) {
+            setPointsPerQuestionLevel(pointsRedux.pointsPerQuestion)
+        }
+
     }, [pointsPerQuestionLevel, pointCurrentLevel, lifes])
 
     return (
@@ -86,8 +94,6 @@ const StatusGain: React.FC<StatusGainProps> = ({ right, children }) => {
                 </div>
                 <img style={{ display: 'flex', width: '100%', height: '40%', justifyContent: 'center', alignItems: 'center' }} src={right ? happy : sad} alt='statusGain' />
             </Grid>
-
-
             {right ? (
                 <ButtonDefault action={incrementHits} customStyle={'buttonConfirm'} label={'Continuar'} styleWidth={'100%'} styleHeight={60} />
             ) :
