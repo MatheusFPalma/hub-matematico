@@ -7,13 +7,14 @@ import { useEffect, useState } from "react";
 import { CardType, getCards } from "../store/modules/cards.slice";
 import { v4 as createUuid } from "uuid"
 import apple from "/apple_level_One.png"
-import { Alert, Grid } from "@mui/material";
+import { Alert, Grid, useTheme } from "@mui/material";
 import Snackbar from "@mui/material/Snackbar"
-import StatusGain from "../components/StatusGain";
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { Link } from "react-router-dom";
+import StatusGain from "../components/StatusGain";
 
 const PlayRoom = () => {
+
     const isOnPlayRoom = window.location.pathname === "/play-room";
 
     if (isOnPlayRoom) {
@@ -23,11 +24,13 @@ const PlayRoom = () => {
     }
 
     const dispatch = useAppDispatch()
+    const theme = useTheme()
 
     const operationRedux = useAppSelector((state) => state.operations)
     const resultLastOperation = useAppSelector((state) => state.challenges)
     const targetValueLastStatement = useAppSelector((state) => state.cards.targetCurrentStatement)
     const lastSelectedCardsRedux = useAppSelector(state => state.cards.lastSelectedCards)
+    const challengeRedux = useAppSelector(state => state.challenges)
 
     const [renderCards, setRenderCards] = useState<CardType[]>([])
     const [operation, setOperation] = useState<"+" | "-" | "x" | "÷" | null>(null)
@@ -36,6 +39,7 @@ const PlayRoom = () => {
     const [openAlert, setOpenAlert] = useState<boolean>(false)
     const [alertMessage, setAlertMessage] = useState<string>('')
     const [itRight, setItRight] = useState<boolean | null>(null)
+    const [challenge, setChallenge] = useState<boolean>(false)
 
 
     const startTimer = () => {
@@ -116,7 +120,17 @@ const PlayRoom = () => {
 
     return (
         <div style={{ marginBottom: '80px' }}>
-            {itRight !== null ? (
+            {challenge ? (
+                <>
+                    <ChallengeLevel renderCards={renderCards} children={<>
+                        <Grid container sx={{ flexDirection: 'column', paddingTop: '20px' }} className={countdown !== 0 ? "styleTimer" : "pausedStyleTimer"}>
+                            {countdown}<span style={{ padding: '0px 0px 0px 8px', fontFamily: "Verdana,sans-serif", fontSize: '16px' }}>segundos</span>
+                        </Grid>
+                        <DisplayScore score={0} />
+                    </>} />
+                    <ButtonDefault action={handleConfirmSelection} customStyle={'buttonConfirm'} label={'Confirmar'} styleWidth={'60%'} styleHeight={60} />
+                </>
+            ) : itRight !== null ?
                 <>
                     <StatusGain children={
                         <Grid container item sx={{ paddingBottom: '25px', flexDirection: 'column', justifyContent: 'center', textAlign: 'center' }}>
@@ -124,7 +138,7 @@ const PlayRoom = () => {
                         </Grid>
                     } right={itRight} />
                 </>
-            )
+
                 : (
                     <>
                         <ChallengeLevel renderCards={renderCards} children={<>
