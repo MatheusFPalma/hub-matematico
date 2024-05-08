@@ -13,9 +13,10 @@ import calculateTargetValue from "./utils/statementUtils";
 interface ChallengeLevelProps {
     children?: React.ReactNode
     renderCards: CardType[]
+    button: React.ReactNode
 }
 
-const ChallengeLevel: React.FC<ChallengeLevelProps> = ({ children, renderCards }) => {
+const ChallengeLevel: React.FC<ChallengeLevelProps> = ({ children, renderCards, button }) => {
 
     const dispatch = useAppDispatch()
     const operationRedux = useAppSelector((state) => state.operations)
@@ -131,36 +132,49 @@ const ChallengeLevel: React.FC<ChallengeLevelProps> = ({ children, renderCards }
 
     return (
         <>
-            <Box sx={{ display: 'flex', flexFlow: 'column', paddingTop: '20px' }}>
-                <Grid item sx={{ display: 'flex', alignItems: 'flex-end' }}>
-                    {children}
-                </Grid>
-                <Grid container item sx={{ marginTop: '5px', flexDirection: 'column', justifyContent: 'center', textAlign: 'center' }}>
-                    <Link to={'/tutorial'}><ChevronLeftIcon sx={{ display: 'flex', width: '35px', padding: '20px 40px 0px 40px', height: '35px', marginTop: '5px', color: '#fff', alignItems: 'flex-start' }} /></Link>
-                </Grid>
-                <Grid item sx={{ display: 'flex', justifyContent: 'center', padding: '20px 40px 0px 40px', alignItems: 'center', textAlign: 'center' }}>
-                    <Typography sx={{ marginTop: '10px', fontFamily: 'Fredoka, sans-serif', fontWeight: 600, fontSize: '26px', color: '#F5EBFF' }}>{statement}</Typography>
-                </Grid>
-                <Grid item xs={12} sm={6} md={4} sx={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', margin: '40px 40px 10px' }}>
-                    {allRight ? (renderCards.map((item) => (
-                        <CardMemory card={item} action={() => handleCardClick(item)} key={item.cardId} />
-                    ))) : (<CircularProgress color="inherit" />)}
-                </Grid>
-                <Grid item sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                    <img style={{ width: '20px', height: '20px', marginRight: '10px' }} src={signalIqual} alt='signalIqual' />
-                    {firstCard !== null && secondCard !== null && (
-                        <>
-                            <GroupOperationLevel firstCard={firstCard} secondCard={secondCard} operation={simbolOperation} />
-                            <CardResult value={resultEquation} />
-                        </>
-                    )}
-                </Grid>
+            <Box minHeight={"100vh"}
+                width={"100vw"}
+                display={"flex"}
+                alignItems={"center"}
+                flexDirection={"column"}>
+                <Box padding={"30px"}
+                    display={"flex"}
+                    flexDirection={"column"}>
+                    <Grid item sx={{ display: 'flex', alignItems: 'flex-end' }}>
+                        <Grid container item sx={{ marginTop: '5px', flexDirection: 'column', justifyContent: 'center', textAlign: 'center' }}>
+                            <Link to={'/tutorial'}><ChevronLeftIcon sx={{ display: 'flex', width: '35px', padding: '20px 40px 0px 40px', height: '35px', marginTop: '5px', color: '#fff', alignItems: 'flex-start' }} /></Link>
+                        </Grid>
+                        {children}
+                    </Grid>
+                    <Box display={"grid"}
+                        gap={"20px"}
+                        alignItems={"center"}>
+                        <Grid item sx={{ display: 'flex', justifyContent: 'center', padding: '20px 40px 0px 40px', alignItems: 'center', textAlign: 'center' }}>
+                            <Typography sx={{ marginTop: '10px', fontFamily: 'Fredoka, sans-serif', fontWeight: 600, fontSize: '26px', color: '#F5EBFF' }}>{statement}</Typography>
+                        </Grid>
+                        <Grid item xs={12} sm={6} md={4} sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', flexWrap: 'wrap', margin: '40px 40px 10px' }}>
+                            {allRight ? (renderCards.map((item) => (
+                                <CardMemory card={item} action={() => handleCardClick(item)} key={item.cardId} />
+                            ))) : (<CircularProgress color="inherit" />)}
+                        </Grid>
+                        <Grid item sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                            <img style={{ width: '20px', height: '20px', marginRight: '10px' }} src={signalIqual} alt='signalIqual' />
+                            {firstCard !== null && secondCard !== null && (
+                                <>
+                                    <GroupOperationLevel firstCard={firstCard} secondCard={secondCard} operation={simbolOperation} />
+                                    <CardResult value={resultEquation} />
+                                </>
+                            )}
+                        </Grid>
+                        {button}
+                    </Box>
+                    <Snackbar anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }} open={openAlert} autoHideDuration={2000} onClose={() => setOpenAlert(false)}>
+                        <Alert variant='filled' onClose={() => setOpenAlert(false)} severity="warning">
+                            {alertMessage}
+                        </Alert>
+                    </Snackbar>
+                </Box>
             </Box>
-            <Snackbar anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }} open={openAlert} autoHideDuration={2000} onClose={() => setOpenAlert(false)}>
-                <Alert variant='filled' onClose={() => setOpenAlert(false)} severity="warning">
-                    {alertMessage}
-                </Alert>
-            </Snackbar>
         </>
     )
 }
