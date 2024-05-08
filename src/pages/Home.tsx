@@ -62,7 +62,6 @@ function Home() {
             disabled={level != "Fácil"}
             tutorialId={1}
           />
-
           <CardTutorial
             title="Tutorial Nível 02"
             text="Indo mais além"

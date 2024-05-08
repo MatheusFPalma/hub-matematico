@@ -20,46 +20,36 @@ const ChoiceLevel = () => {
     scoreCurrentLevel: 0,
     pointsPerQuestion: 5,
     countHits: 0,
-    scoreTotal: []
+    scoreTotal: [],
   }
 
   const objectLevelMidle = {
     scoreCurrentLevel: 0,
     pointsPerQuestion: 10,
     countHits: 0,
-    scoreTotal: []
+    scoreTotal: [],
   }
 
   const objectLevelHard = {
     scoreCurrentLevel: 0,
     pointsPerQuestion: 15,
     countHits: 0,
-    scoreTotal: []
+    scoreTotal: [],
   }
-
 
   const setRules = (level: string) => {
-
     switch (level) {
       case "Fácil":
-        dispatch(setPointsRules(
-          objectLevelEasy
-        ))
-        break;
+        dispatch(setPointsRules(objectLevelEasy))
+        break
       case "Médio":
-        dispatch(setPointsRules(
-          objectLevelMidle
-        ))
-        break;
+        dispatch(setPointsRules(objectLevelMidle))
+        break
       case "Difícil":
-        dispatch(setPointsRules(
-          objectLevelHard
-        ))
-        break;
+        dispatch(setPointsRules(objectLevelHard))
+        break
     }
   }
-
-
 
   function getLevel(level: string) {
     switch (level) {
