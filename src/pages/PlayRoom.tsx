@@ -9,19 +9,9 @@ import { v4 as createUuid } from "uuid"
 import apple from "/apple_level_One.png"
 import { Alert, Grid, useTheme } from "@mui/material";
 import Snackbar from "@mui/material/Snackbar"
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import { Link } from "react-router-dom";
 import StatusGain from "../components/StatusGain";
 
 const PlayRoom = () => {
-
-    const isOnPlayRoom = window.location.pathname === "/play-room";
-
-    if (isOnPlayRoom) {
-        document.body.classList.add("challengeLevel");
-    } else {
-        document.body.classList.remove("challengeLevel");
-    }
 
     const dispatch = useAppDispatch()
     const theme = useTheme()
@@ -119,37 +109,36 @@ const PlayRoom = () => {
     }, [operation])
 
     return (
-        <div style={{ marginBottom: '80px' }}>
-            {challenge ? (
-                <>
-                    <ChallengeLevel renderCards={renderCards} children={<>
-                        <Grid container sx={{ flexDirection: 'column', paddingTop: '20px' }} className={countdown !== 0 ? "styleTimer" : "pausedStyleTimer"}>
-                            {countdown}<span style={{ padding: '0px 0px 0px 8px', fontFamily: "Verdana,sans-serif", fontSize: '16px' }}>segundos</span>
-                        </Grid>
-                        <DisplayScore score={0} />
-                    </>} />
-                    <ButtonDefault action={handleConfirmSelection} customStyle={'buttonConfirm'} label={'Confirmar'} styleWidth={'60%'} styleHeight={60} />
-                </>
-            ) : itRight !== null ?
-                <>
-                    <StatusGain children={
-                        <Grid container item sx={{ paddingBottom: '25px', flexDirection: 'column', justifyContent: 'center', textAlign: 'center' }}>
-                            <Link to={'/tutorial'}><ChevronLeftIcon sx={{ display: 'flex', width: '35px', padding: '0px 40px 40px 0px', height: '35px', color: '#fff', alignItems: 'flex-start' }} /></Link>
-                        </Grid>
-                    } right={itRight} />
-                </>
-
-                : (
+        <>
+            <div style={{ backgroundColor: theme.palette.secondary.main, alignItems: 'center', width: '100vw', height: '100%' }}>
+                {challenge ? (
                     <>
-                        <ChallengeLevel renderCards={renderCards} children={<>
-                            <Grid container sx={{ flexDirection: 'column', paddingTop: '20px' }} className={countdown !== 0 ? "styleTimer" : "pausedStyleTimer"}>
-                                {countdown}<span style={{ padding: '0px 0px 0px 8px', fontFamily: "Verdana,sans-serif", fontSize: '16px' }}>segundos</span>
-                            </Grid>
-                            <DisplayScore score={0} />
-                        </>} />
-                        <ButtonDefault action={handleConfirmSelection} customStyle={'buttonConfirm'} label={'Confirmar'} styleWidth={'60%'} styleHeight={60} />
+                        <ChallengeLevel renderCards={renderCards} children={
+                            <>
+                                <Grid container sx={{ flexDirection: 'column', paddingTop: '20px' }} className={countdown !== 0 ? "styleTimer" : "pausedStyleTimer"}>
+                                    {countdown}<span style={{ padding: '0px 0px 0px 8px', fontFamily: "Verdana,sans-serif", fontSize: '16px' }}>segundos</span>
+                                </Grid>
+                                <DisplayScore score={0} />
+                            </>
+                        } button={<ButtonDefault action={handleConfirmSelection} customStyle={'buttonConfirm'} label={'Confirmar'} styleWidth={'60%'} styleHeight={60} />} />
                     </>
-                )}
+                ) : itRight !== null ?
+                    <div style={{ display: 'flex', height: '100vh', justifyContent: 'center', alignItems: 'center' }}>
+                        <StatusGain right={itRight} />
+                    </div>
+                    : (
+                        <>
+                            <ChallengeLevel renderCards={renderCards} children={
+                                <>
+                                    <Grid container sx={{ flexDirection: 'column', paddingTop: '20px' }} className={countdown !== 0 ? "styleTimer" : "pausedStyleTimer"}>
+                                        {countdown}<span style={{ padding: '0px 0px 0px 8px', fontFamily: "Verdana,sans-serif", fontSize: '16px' }}>segundos</span>
+                                    </Grid>
+                                    <DisplayScore score={0} />
+                                </>
+                            } button={<ButtonDefault action={handleConfirmSelection} customStyle={'buttonConfirm'} label={'Confirmar'} styleWidth={'60%'} styleHeight={60} />} />
+                        </>
+                    )}
+            </div>
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <Snackbar anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }} open={openAlert} autoHideDuration={2200} onClose={() => setOpenAlert(false)}>
                     <Alert variant='filled' onClose={() => setOpenAlert(false)} severity="warning">
@@ -157,7 +146,7 @@ const PlayRoom = () => {
                     </Alert>
                 </Snackbar>
             </div>
-        </div>
+        </>
     )
 }
 
