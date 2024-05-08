@@ -6,8 +6,9 @@ import maticGame from "/maticGame.png"
 import "../App.css"
 import { useState } from "react"
 import { useAppDispatch } from "../store/hooks"
-import { getOperationOne } from "../store/modules/operation.slice"
+import { getOperation } from "../store/modules/operation.slice"
 import { useNavigate } from "react-router-dom"
+import { setPointsRules } from "../store/modules/challenge.slice"
 import { Colors } from "../components/utils/colors"
 
 const ChoiceLevel = () => {
@@ -15,16 +16,60 @@ const ChoiceLevel = () => {
   const [currentLevel, setCurrentLevel] = useState<string>("")
   const dispatch = useAppDispatch()
 
+  const objectLevelEasy = {
+    scoreCurrentLevel: 0,
+    pointsPerQuestion: 5,
+    countHits: 0,
+    scoreTotal: [],
+  }
+
+  const objectLevelMidle = {
+    scoreCurrentLevel: 0,
+    pointsPerQuestion: 10,
+    countHits: 0,
+    scoreTotal: [],
+  }
+
+  const objectLevelHard = {
+    scoreCurrentLevel: 0,
+    pointsPerQuestion: 15,
+    countHits: 0,
+    scoreTotal: [],
+  }
+
+  const setRules = (level: string) => {
+    switch (level) {
+      case "Fácil":
+        dispatch(setPointsRules(objectLevelEasy))
+        break
+      case "Médio":
+        dispatch(setPointsRules(objectLevelMidle))
+        break
+      case "Difícil":
+        dispatch(setPointsRules(objectLevelHard))
+        break
+    }
+  }
+
   function getLevel(level: string) {
     switch (level) {
       case "Fácil":
-        dispatch(getOperationOne({ operationLevel: "+", gameLevel: "Fácil" }))
+        setCurrentLevel("Facil")
+        dispatch(getOperation({ operationLevel: "+", gameLevel: "Fácil" }))
+        setRules(level)
+        navigate("/play-room")
         break
       case "Médio":
-        dispatch(getOperationOne({ operationLevel: "x", gameLevel: "Médio" }))
+        setCurrentLevel("Médio")
+        dispatch(getOperation({ operationLevel: "x", gameLevel: "Médio" }))
+        setRules(level)
+        navigate("/play-room")
         break
       case "Difícil":
-        dispatch(getOperationOne({ operationLevel: "÷", gameLevel: "Difícil" }))
+        setCurrentLevel("Difícil")
+        dispatch(getOperation({ operationLevel: "÷", gameLevel: "Difícil" }))
+        setRules(level)
+        navigate("/play-room")
         break
     }
     setCurrentLevel(level)

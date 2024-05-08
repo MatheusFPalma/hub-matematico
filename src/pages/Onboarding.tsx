@@ -58,8 +58,8 @@ function Onboarding() {
       case 3:
         setText(initialText)
         setImage(initialImage)
+        setStep(0)
         navigate("/choiceLevel")
-        setStep(1)
         break
     }
   }
@@ -68,7 +68,7 @@ function Onboarding() {
     setTimeout(() => {
       setProperties()
     }, 10000)
-  }, [step])
+  }, [step === 1])
 
   return (
     <Box

@@ -1,15 +1,16 @@
-import { Box, Typography } from "@mui/material"
-import maticGame from "../../public/maticGame.png"
-import starPoints from "../../public/starPoints.png"
-import photoProfile from "../../public/photoProfile.svg"
+import { Box, Typography, useMediaQuery, useTheme } from "@mui/material"
+
 import cards from "../../public/cards.svg"
 import CardTutorial from "../components/CardTutorial"
 import CardGame from "../components/CardGame"
 import { useNavigate } from "react-router-dom"
 import useQuery from "../hooks/useQuery"
 import { useEffect } from "react"
+import NavBar from "../components/NavBar"
 
 function Home() {
+  const theme = useTheme()
+  const isXs = useMediaQuery(theme.breakpoints.only("xs"))
   const navigate = useNavigate()
   const query = useQuery()
   const level = query.get("level")
@@ -36,35 +37,21 @@ function Home() {
         "var(--gradient-green, linear-gradient(180deg, #FBFFFB 0%, #F5F5F5 100%))"
       }
     >
-      <Box
-        height={"20%"}
-        width={"100%"}
-        display={"flex"}
-        alignItems={"center"}
-        justifyContent={"space-evenly"}
-        gap={"70%"}
-      >
-        <Box>
-          <img src={maticGame} height={"80px"} />
-        </Box>
-        <Box display={"flex"} gap={"10%"} alignItems={"center"}>
-          <img src={starPoints} height={"5%"} />
-          <p>{0} Pts</p>
-          <img src={photoProfile} height={"80px"} />
-        </Box>
-      </Box>
+      <NavBar />
       <Box
         padding={"30px"}
         display={"flex"}
         flexDirection={"column"}
         gap={"20px"}
       >
-        <Typography variant="h3">
-          Selecione seu <br /> nível de dificuldade
-        </Typography>
+        {!isXs && (
+          <Typography variant="h3">
+            Selecione seu <br /> nível de dificuldade
+          </Typography>
+        )}
         <Box
           display={"grid"}
-          gridTemplateColumns={"1fr 1fr 1fr"}
+          gridTemplateColumns={{ xs: "1fr", md: "1fr 1fr 1fr" }}
           gap={"20px"}
           alignItems={"stretch"}
         >
@@ -88,27 +75,60 @@ function Home() {
             tutorialId={3}
           />
 
-          <CardGame title={<>Card Memory</>} image={cards} />
-          <CardGame
-            title={
-              <>
-                Em breve novos <br />
-                jogos
-              </>
-            }
-            image={cards}
-            disabled
-          />
-          <CardGame
-            title={
-              <>
-                Em breve novos <br />
-                jogos
-              </>
-            }
-            image={cards}
-            disabled
-          />
+          {isXs ? (
+            <Box
+              display={"grid"}
+              gridTemplateColumns={"1fr 1fr"}
+              gap={"20px"}
+              alignItems={"stretch"}
+            >
+              <CardGame title={<>Card Memory</>} image={cards} />
+              <CardGame
+                title={
+                  <>
+                    Em breve novos <br />
+                    jogos
+                  </>
+                }
+                image={cards}
+                disabled
+              />
+              <CardGame
+                title={
+                  <>
+                    Em breve novos <br />
+                    jogos
+                  </>
+                }
+                image={cards}
+                disabled
+              />
+            </Box>
+          ) : (
+            <>
+              <CardGame title={<>Card Memory</>} image={cards} />
+              <CardGame
+                title={
+                  <>
+                    Em breve novos <br />
+                    jogos
+                  </>
+                }
+                image={cards}
+                disabled
+              />
+              <CardGame
+                title={
+                  <>
+                    Em breve novos <br />
+                    jogos
+                  </>
+                }
+                image={cards}
+                disabled
+              />
+            </>
+          )}
         </Box>
       </Box>
     </Box>
