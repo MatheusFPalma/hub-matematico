@@ -39,8 +39,10 @@ export const cardsSlice = createSlice({
                 return state
             }
         },
-        clearSelectedCards: (state, action) => {
-
+        clearSelectedCards: (state, action: PayloadAction<CardType>) => {
+            const cardsSelectedsIndex = state.lastSelectedCards.findIndex((item) => item.cardId === action.payload.cardId)
+            state.lastSelectedCards.splice(cardsSelectedsIndex, 2)
+            return state
         },
         valueCurrentStatement: (state, action) => {
             state.targetCurrentStatement = action.payload
@@ -49,5 +51,5 @@ export const cardsSlice = createSlice({
     }
 })
 
-export const { getCards, setLastSelectedCard, removeLastSelectedCard, valueCurrentStatement } = cardsSlice.actions
+export const { getCards, setLastSelectedCard, removeLastSelectedCard, valueCurrentStatement, clearSelectedCards } = cardsSlice.actions
 export default cardsSlice.reducer
