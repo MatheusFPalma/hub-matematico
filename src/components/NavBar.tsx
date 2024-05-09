@@ -2,8 +2,6 @@ import {
   Box,
   Button,
   Drawer,
-  List,
-  ListItem,
   Stack,
   Typography,
   useMediaQuery,
@@ -11,7 +9,7 @@ import {
 } from "@mui/material"
 import maticGame from "../../public/maticGame.png"
 import starPoints from "../../public/starPoints.png"
-import photoProfile from "../../public/photoProfile.svg"
+import happyChild from "../../public/happyChild.jpg"
 import vectorMenu from "../../public/vectorMenu.svg"
 import vectorArrow from "../../public/vectorArrow.svg"
 import vectorStar from "../../public/vectorStar.svg"
@@ -40,26 +38,76 @@ export default function NavBar({ level }: Props) {
       justifyContent={"space-between"}
       padding={"20px"}
     >
-      <Drawer open={open} onClose={toggleDrawer(false)}>
+      {isXs ? (
+        <Button
+          style={{ padding: 0, justifyContent: "unset" }}
+          onClick={toggleDrawer(true)}
+        >
+          <img src={vectorMenu} />
+        </Button>
+      ) : (
+        <img src={maticGame} />
+      )}
+
+      <Box display={"flex"} alignItems={"center"} gap={"5px"}>
+        <img src={starPoints} height={"5%"} />
+
+        <Typography variant="h5" color={Colors.black}>
+          {0} Pts
+        </Typography>
+        <Button style={{ padding: 0 }} onClick={toggleDrawer(true)}>
+          <img
+            src={happyChild}
+            style={{
+              borderRadius: "75px",
+            }}
+            height={"80px"}
+          />
+        </Button>
+        <Box />
+      </Box>
+      <Drawer open={open} anchor="right" onClose={toggleDrawer(false)}>
         <Box
-          sx={{ width: "100vw" }}
+          sx={{ width: isXs ? "100vw" : "400px" }}
           role="presentation"
           onClick={toggleDrawer(false)}
         >
-          <Stack alignItems={"self-start"} paddingTop={"50px"}>
-            <Button>
+          <Stack alignItems={"self-start"} paddingTop={"30px"}>
+            <Button style={{ transform: "rotate(180deg)" }}>
               <img src={vectorArrow} />
             </Button>
           </Stack>
-          <Stack padding={"20px"} alignItems={"center"} gap={"20px"}>
-            <Box display={"flex"} alignItems={"center"} gap={"10px"}>
+
+          <Stack
+            padding={"20px"}
+            alignItems={"center"}
+            style={{ gap: isXs ? "50px" : "30px" }}
+          >
+            <Box
+              display={"flex"}
+              alignItems={"center"}
+              gap={"10px"}
+              paddingRight={"20px"}
+            >
               <img src={vectorStar} height={40} />
-              <Typography variant="h4">Meu Perfil</Typography>
+              <Typography variant={"h4"} fontSize={"30px"}>
+                Meu Perfil
+              </Typography>
             </Box>
             <Stack>
-              <Typography variant="h4">Histórico de acertos</Typography>
+              <img
+                src={happyChild}
+                style={{
+                  borderRadius: isXs ? "100px" : "75px",
+                  boxShadow: "1px 5px 4px 2px rgb(0 0 0 / 29%)",
+                }}
+                height={isXs ? "200px" : "150px"}
+              />
             </Stack>
-            <Stack gap={2}>
+            <Stack gap={2} alignItems={"center"}>
+              <Typography variant="h4" fontSize={"24px"}>
+                Histórico de acertos
+              </Typography>
               <CardLevelHistory
                 date="02/03"
                 level="Fácil"
@@ -79,25 +127,6 @@ export default function NavBar({ level }: Props) {
           </Stack>
         </Box>
       </Drawer>
-      {isXs ? (
-        <Button
-          style={{ padding: 0, justifyContent: "unset" }}
-          onClick={toggleDrawer(true)}
-        >
-          <img src={vectorMenu} />
-        </Button>
-      ) : (
-        <img src={maticGame} />
-      )}
-
-      <Box display={"flex"} alignItems={"center"} gap={"5px"}>
-        <img src={starPoints} height={"5%"} />
-        <Typography variant="h5" color={Colors.black}>
-          {0} Pts
-        </Typography>
-        <img src={photoProfile} height={"80px"} />
-        <Box />
-      </Box>
     </Box>
   )
 }
