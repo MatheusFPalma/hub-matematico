@@ -16,7 +16,8 @@ export default function CardGame({ title, image, disabled = false }: Props) {
   return (
     <Box
       component={Link}
-      to={!disabled ? "/play-room" : "/home"}
+      style={{ pointerEvents: disabled ? "none" : "auto" }}
+      to={"/play-room"}
       bgcolor={!disabled ? Colors.green : Colors.white}
       display={"flex"}
       flexDirection={"column"}

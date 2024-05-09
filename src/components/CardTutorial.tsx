@@ -3,7 +3,6 @@ import vectorStar from "../../public/vectorStar.svg"
 import play from "../../public/play.svg"
 import { Link } from "react-router-dom"
 import { Colors } from "./utils/colors"
-import Tutorial from "../pages/Tutorial"
 
 interface Props {
   text: string
@@ -58,7 +57,8 @@ function CardTutorial({
       {!isXs && (
         <Box
           component={Link}
-          to={!disabled ? `/tutorial?id=${tutorialId}` : "/home"}
+          style={{ pointerEvents: disabled ? "none" : "auto" }}
+          to={`/tutorial?id=${tutorialId}`}
           bgcolor={!disabled ? Colors.green : Colors.grey}
           display={"flex"}
           flexDirection={"column"}
