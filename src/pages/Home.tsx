@@ -37,7 +37,7 @@ function Home() {
         "var(--gradient-green, linear-gradient(180deg, #FBFFFB 0%, #F5F5F5 100%))"
       }
     >
-      <NavBar />
+      <NavBar level={level} />
       <Box
         padding={"30px"}
         display={"flex"}

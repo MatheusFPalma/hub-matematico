@@ -7,6 +7,16 @@ const titleStyle: TypographyStyleOptions = {
   color: Colors.green,
   fontWeight: 600,
 }
+const littleTitleStyle: TypographyStyleOptions = {
+  fontFamily: '"Fredoka", sans-serif',
+  color: Colors.green,
+  fontWeight: 500,
+}
+const subtitle1Style: TypographyStyleOptions = {
+  fontFamily: '"Roboto Flex", sans-serif',
+  color: Colors.white,
+  fontSize: "18px",
+}
 
 const defaultTheme = createTheme({
   palette: {
@@ -23,12 +33,13 @@ const defaultTheme = createTheme({
   },
   typography: {
     fontFamily: '"Roboto", sans-serif',
+    subtitle1: subtitle1Style,
     h1: titleStyle,
     h2: titleStyle,
     h3: titleStyle,
     h4: titleStyle,
-    h5: titleStyle,
-    h6: titleStyle,
+    h5: littleTitleStyle,
+    h6: littleTitleStyle,
   },
 })
 
