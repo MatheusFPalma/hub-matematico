@@ -6,23 +6,27 @@ import happy from '/happy.png'
 import sad from '/sad.png'
 import { Grid } from '@mui/material'
 import { useTheme } from '@mui/material'
-import { setPointsRules, updateScore } from '../store/modules/challenge.slice'
+import { actionTimer, setPointsRules, updateScore } from '../store/modules/challenge.slice'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { Link } from "react-router-dom";
+import { clearSelectedCards } from '../store/modules/cards.slice'
 
 interface StatusGainProps {
     right: boolean | null
     children?: React.ReactNode
+    actionChallenge: (challenge: boolean) => void
+    timer: (startTime: boolean) => void
 }
 
 
-const StatusGain: React.FC<StatusGainProps> = ({ right }) => {
+const StatusGain: React.FC<StatusGainProps> = ({ right, actionChallenge, timer }) => {
     const theme = useTheme()
+    const dispatch = useAppDispatch()
 
     const lifesRedux = useAppSelector((item) => item.lifes)
     const pointsRedux = useAppSelector((item) => item.challenges.rules)
     const getLevelRedux = useAppSelector((item) => item.operations.gameLevel)
-    const dispatch = useAppDispatch()
+    const lastSelectedCardsRedux = useAppSelector(state => state.cards.lastSelectedCards)
 
     const [countHits, setCountHits] = useState<number>(0)
     const [wrongs, setWrongs] = useState<number>(0)
@@ -33,6 +37,7 @@ const StatusGain: React.FC<StatusGainProps> = ({ right }) => {
     const [levelTutorial, setLevelTutorial] = useState<"Fácil" | "Médio" | "Difícil" | null>(null)
 
     const incrementHits = () => {
+        dispatch(actionTimer(timer(true)))
         if (right) {
             dispatch(updateScore({
                 scoreCurrentLevel: pointCurrentLevel,
@@ -45,10 +50,13 @@ const StatusGain: React.FC<StatusGainProps> = ({ right }) => {
             }
         }
         setCountHits(countHits)
+        actionChallenge(true)
     }
 
     const checkPoints = () => {
         wrongResponse()
+        actionChallenge(true)
+        dispatch(actionTimer(timer(true)))
         if (right) {
             setScoreTotal((prevstate: any) => [...prevstate, pointCurrentLevel])
 

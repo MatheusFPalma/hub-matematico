@@ -8,12 +8,6 @@ interface PointRules {
     scoreTotal: number[]
 }
 
-// interface LevelPoints {
-//     scoreEachLevel: number
-// }
-
-// interface LevelState extends Partial<LevelPoints>, Partial<PointRules> { }
-
 export interface ChallengeType {
     firstNumber: number;
     secondNumber: number;
@@ -29,7 +23,8 @@ interface ChallengeState {
         result: number,
     },
     rules: PointRules
-    // score: LevelPoints
+    newChallenge: boolean
+    actionTimer: boolean
 }
 
 export const initialState: ChallengeState = {
@@ -40,7 +35,8 @@ export const initialState: ChallengeState = {
         result: 0
     },
     rules: {} as PointRules,
-    // score: {} as LevelPoints
+    newChallenge: true,
+    actionTimer: false
 }
 
 export const challengeSlice = createSlice({
@@ -66,9 +62,17 @@ export const challengeSlice = createSlice({
                 state.rules.scoreTotal.push(action.payload.scoreCurrentLevel)
                 return state
             }
+        },
+        reStartChallenge: (state, action) => {
+            state.newChallenge = action.payload
+            return state
+        },
+        actionTimer: (state, action) => {
+            state.actionTimer = action.payload
+            return state
         }
     }
 })
 
-export const { updateInfoOperation, setPointsRules, updateScore } = challengeSlice.actions
+export const { updateInfoOperation, setPointsRules, updateScore, reStartChallenge, actionTimer } = challengeSlice.actions
 export default challengeSlice.reducer

@@ -142,7 +142,7 @@ const ChallengeLevel: React.FC<ChallengeLevelProps> = ({ children, renderCards, 
                     flexDirection={"column"}>
                     <Grid item sx={{ display: 'flex', alignItems: 'flex-end' }}>
                         <Grid container item sx={{ marginTop: '5px', flexDirection: 'column', justifyContent: 'center', textAlign: 'center' }}>
-                            <Link to={'/choiceLevel'}><ChevronLeftIcon sx={{ display: 'flex', width: '35px', padding: '20px 40px 0px 40px', height: '35px', marginTop: '5px', color: '#fff', alignItems: 'flex-start' }} /></Link>
+                            <Link to={`/home?level=${operationRedux.gameLevel}`}><ChevronLeftIcon sx={{ display: 'flex', width: '35px', padding: '20px 40px 0px 40px', height: '35px', marginTop: '5px', color: '#fff', alignItems: 'flex-start' }} /></Link>
                         </Grid>
                         {children}
                     </Grid>
