@@ -1,71 +1,90 @@
 
-import { Box } from "@mui/material";
-import { useState, useEffect } from "react";
 import { useSpring, animated } from "react-spring";
 import logoMatic from '/logoMatic.svg';
 import backgroundSplash from '/backgroundSplash.png';
+import Box from '@mui/material/Box';
+import Drawer from '@mui/material/Drawer';
+import { useEffect, useState } from 'react';
 import { Colors } from "../components/utils/colors";
+import simbolAdd from "/simbol-add.svg"
+import simbolIqual from "/simbol-Iqual.svg"
+import simbolPoligon from '/simbol-poligon.svg'
 import { useNavigate } from "react-router-dom";
 
-
-const ScreenSplash = () => {
-
+export default function ScreenSplash() {
+    const [open, setOpen] = useState(false);
+    const [currentBackground, setCurrentBackground] = useState('')
     const [showLogo, setShowLogo] = useState(false);
-    const [showBackground, setShowBackground] = useState(true);
-    const [showScreen, setShowScreen] = useState(false);
     const navigate = useNavigate()
+
+    const setBackground = () => {
+        if (!open) {
+            setTimeout(() => {
+                setCurrentBackground(backgroundSplash)
+            }, 1000)
+            setTimeout(() => {
+                setShowLogo(true)
+            }, 1800)
+        }
+    }
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setOpen(true)
+        }, 1000)
+        setBackground()
+        return () => clearTimeout(timer);
+    }, [])
+
+    const toggleDrawer = (open: boolean) => {
+        setOpen(open);
+    }
 
     useEffect(() => {
         setTimeout(() => {
-            setShowBackground(false);
-            setShowScreen(true);
-            setShowLogo(true);
-        }, 1000);
+            setOpen(false)
+        }, 3800)
         setTimeout(() => {
-            navigate("/onboarding")
-        }, 2800)
-    }, []);
+            navigate('/onboarding')
+        }, 4100)
+    }, [])
 
     const backgroundProps = useSpring({
-        from: { backgroundPosition: '20% 0%', background: Colors.offWhite, },
-        to: { backgroundPosition: showBackground ? '0% 20%' : '100% 0%', background: showBackground ? Colors.offWhite : '' },
-        config: { duration: 200 }
+        from: { backgroundPosition: '0% 0%', background: Colors.offWhite },
+        to: { backgroundPosition: '0% 30% 100% ', background: '#fff' },
+        config: { duration: 6000 }
     });
 
-    const logoProps = useSpring({
-        to: async (next) => {
-            await next({ opacity: showLogo ? 1 : 0 });
-            await next({ transform: showLogo ? 'rotate(360deg)' : 'rotate(0deg)' });
-        },
-        from: { opacity: 0 },
-        config: { duration: 300 }
-    });
 
     return (
-        <Box>
-            <animated.div style={{
-                ...backgroundProps, width: '100vw', height: '100vh', backgroundSize: 'cover'
-            }}>
-
-                <Box sx={{ backgroundSize: 'cover', flexDirection: 'column', display: 'flex', width: '100vw', height: '100vh', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <div className="blur-border" style={{ display: 'flex', height: '190px', width: '100%', flexDirection: 'column', alignItems: 'center' }}>
-                        <img src={showBackground ? Colors.offWhite : backgroundSplash} alt='backgroundTheme' style={{ width: '100vw', height: '100%' }} />
-                    </div>
-                    {showScreen && (
-                        <animated.div style={logoProps}>
-                            <div style={{ display: 'flex', height: '100%', width: '100%', justifyContent: 'center', alignItems: 'center' }}>
-                                <img width={'100%'} height={"100%"} src={logoMatic} alt='logoMatic' />
-                            </div>
-                        </animated.div>
-                    )}
-                    <div className="blur-border" style={{ display: 'flex', height: '190px', width: '100%', flexDirection: 'column', alignItems: 'center', justifySelf: 'flex-end' }}>
-                        <img src={showBackground ? Colors.offWhite : backgroundSplash} alt='' style={{ width: '100vw', height: '100%' }} />
-                    </div>
-                </Box>
-
-            </animated.div>
+        <Box sx={{ backgroundColor: Colors.offWhite, width: "100vw", height: '100vh' }}>
+            <Drawer
+                anchor={"left"}
+                open={open}
+                onClose={() => toggleDrawer(false)}
+            >
+                <animated.div style={{ ...backgroundProps, width: '100vw', height: '100vh', transition: 'allow-discrete' }}>
+                    <Box className='styleSplash'
+                        sx={{ display: 'flex', width: "100vw", height: '100vh', justifyContent: 'center', alignItems: 'center', backgroundImage: `url(${currentBackground})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }}
+                    >
+                        <div style={{ display: 'flex', flexDirection: 'column', width: '100vw', height: '80%', backgroundColor: '#fff', justifyContent: 'center', alignItems: 'center' }}>
+                            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', borderRadius: '16px' }} className={showLogo ? "styleAdd" : 'addHide'} width={'90px'} height={'90px'} boxShadow={"0px 0px 10px 0.5px #00000024"}>
+                                <img src={simbolAdd} width={'50%'} height={'50%'} alt='simbolAdd' />
+                            </Box>
+                            <img style={{ zIndex: '1' }} className={showLogo ? 'animateLogo' : 'fixedLogo'} width='25%' height='25%' src={logoMatic} alt='logoMatic' />
+                            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', borderRadius: '16px' }} className={showLogo ? "styleIqual" : 'iqualHide'} width={'90px'} height={'90px'} boxShadow={"0px 0px 10px 0.5px #00000024"}>
+                                <img src={simbolIqual} width={'50%'} height={'50%'} alt='simbolIqual' />
+                            </Box>
+                            <Box className={showLogo ? "stylePoligon" : 'polygonHide'} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', borderRadius: '16px' }} width={'90px'} height={'90px'} boxShadow={"0px 0px 10px 0.5px #00000024"}>
+                                <img src={simbolPoligon} width={'50%'} height={'50%'} alt='simbolPoligon' />
+                            </Box>
+                        </div>
+                    </Box>
+                </animated.div>
+            </Drawer>
         </Box>
-    )
+    );
 }
 
-export default ScreenSplash
+
+
