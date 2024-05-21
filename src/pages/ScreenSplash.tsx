@@ -10,6 +10,7 @@ import simbolAdd from "/simbol-add.svg"
 import simbolIqual from "/simbol-Iqual.svg"
 import simbolPoligon from '/simbol-poligon.svg'
 import { useNavigate } from "react-router-dom";
+import { Grid } from "@mui/material";
 
 export default function ScreenSplash() {
     const [open, setOpen] = useState(false);
@@ -67,18 +68,14 @@ export default function ScreenSplash() {
                     <Box className='styleSplash'
                         sx={{ display: 'flex', width: "100vw", height: '100vh', justifyContent: 'center', alignItems: 'center', backgroundImage: `url(${currentBackground})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }}
                     >
-                        <div style={{ display: 'flex', flexDirection: 'column', width: '100vw', height: '80%', backgroundColor: '#fff', justifyContent: 'center', alignItems: 'center' }}>
-                            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', borderRadius: '16px' }} className={showLogo ? "styleAdd" : 'addHide'} width={'90px'} height={'90px'} boxShadow={"0px 0px 10px 0.5px #00000024"}>
-                                <img src={simbolAdd} width={'50%'} height={'50%'} alt='simbolAdd' />
-                            </Box>
-                            <img style={{ zIndex: '1' }} className={showLogo ? 'animateLogo' : 'fixedLogo'} width='25%' height='25%' src={logoMatic} alt='logoMatic' />
-                            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', borderRadius: '16px' }} className={showLogo ? "styleIqual" : 'iqualHide'} width={'90px'} height={'90px'} boxShadow={"0px 0px 10px 0.5px #00000024"}>
-                                <img src={simbolIqual} width={'50%'} height={'50%'} alt='simbolIqual' />
-                            </Box>
-                            <Box className={showLogo ? "stylePoligon" : 'polygonHide'} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', borderRadius: '16px' }} width={'90px'} height={'90px'} boxShadow={"0px 0px 10px 0.5px #00000024"}>
-                                <img src={simbolPoligon} width={'50%'} height={'50%'} alt='simbolPoligon' />
-                            </Box>
-                        </div>
+                        <Grid item sx={{ display: 'flex', flexDirection: 'column', flexWrap: 'wrap', width: '100vw', height: '80%', backgroundColor: '#fff', justifyContent: 'center', alignItems: 'center' }}>
+                            <Grid sx={{ display: 'center', flexWrap: 'wrap', alignItems: 'center', height: '50%', justifyContent: 'center' }}>
+                                <img className={showLogo ? "styleAdd" : 'addHide'} src={simbolAdd} width={'10%'} height={'10%'} alt='simbolAdd' />
+                                <img style={{ zIndex: '1' }} className={showLogo ? 'animateLogo' : 'fixedLogo'} src={logoMatic} alt='logoMatic' />
+                                <img className={showLogo ? "styleIqual" : 'iqualHide'} src={simbolIqual} width={'10%'} height={'10%'} alt='simbolIqual' />
+                                <img className={showLogo ? "stylePoligon" : 'polygonHide'} src={simbolPoligon} width={'12%'} height={'12%'} alt='simbolPoligon' />
+                            </Grid>
+                        </Grid>
                     </Box>
                 </animated.div>
             </Drawer>
