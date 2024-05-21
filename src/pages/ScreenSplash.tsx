@@ -65,7 +65,7 @@ export default function ScreenSplash() {
                 onClose={() => toggleDrawer(false)}
             >
                 <animated.div style={{ ...backgroundProps, width: '100vw', height: '100vh', transition: 'allow-discrete' }}>
-                    <Box className='styleSplash'
+                    <Box
                         sx={{ display: 'flex', width: "100vw", height: '100vh', justifyContent: 'center', alignItems: 'center', backgroundImage: `url(${currentBackground})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }}
                     >
                         <Grid item sx={{ display: 'flex', flexDirection: 'column', flexWrap: 'wrap', width: '100vw', height: '80%', backgroundColor: '#fff', justifyContent: 'center', alignItems: 'center' }}>
