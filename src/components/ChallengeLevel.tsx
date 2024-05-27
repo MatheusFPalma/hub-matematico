@@ -9,6 +9,7 @@ import CardResult from "./CardResult";
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { Link } from "react-router-dom";
 import calculateTargetValue from "./utils/statementUtils";
+import { updateInfoOperation } from "../store/modules/challenge.slice";
 
 interface ChallengeLevelProps {
     children?: React.ReactNode
@@ -21,7 +22,7 @@ const ChallengeLevel: React.FC<ChallengeLevelProps> = ({ children, renderCards, 
     const dispatch = useAppDispatch()
     const operationRedux = useAppSelector((state) => state.operations)
 
-    const [simbolOperation, setSimbolOperation] = useState<string | null>('')
+    const [simbolOperation, setSimbolOperation] = useState<'+' | '-' | 'x' | '÷' | null>(null)
     const [statement, setStatement] = useState<string>('')
     const [firstCard, setFirstCard] = useState<number>(0);
     const [secondCard, setSecondCard] = useState<number>(0);
@@ -52,7 +53,7 @@ const ChallengeLevel: React.FC<ChallengeLevelProps> = ({ children, renderCards, 
             if (lastSelectedCardsRedux.length === 2) {
                 setSelectedPair(true);
                 setAlertMessage('Retire a seleção de uma das cartas para mudar sua escolha');
-                setOpenAlert(true);
+                setOpenAlert(true)
                 return;
             }
             else {
@@ -68,7 +69,7 @@ const ChallengeLevel: React.FC<ChallengeLevelProps> = ({ children, renderCards, 
 
 
     const changeOperation = () => {
-        switch (operationRedux.operationLevel) {
+        switch (simbolOperation) {
             case '+':
                 setSimbolOperation('+')
                 break;
@@ -127,8 +128,7 @@ const ChallengeLevel: React.FC<ChallengeLevelProps> = ({ children, renderCards, 
 
     useEffect(() => {
         changeOperation()
-    }, [operationRedux.operationLevel, simbolOperation])
-
+    }, [simbolOperation, resultEquation])
 
     return (
         <>
@@ -142,7 +142,7 @@ const ChallengeLevel: React.FC<ChallengeLevelProps> = ({ children, renderCards, 
                     flexDirection={"column"}>
                     <Grid item sx={{ display: 'flex', alignItems: 'flex-end' }}>
                         <Grid container item sx={{ marginTop: '5px', flexDirection: 'column', justifyContent: 'center', textAlign: 'center' }}>
-                            <Link to={'/choiceLevel'}><ChevronLeftIcon sx={{ display: 'flex', width: '35px', padding: '20px 40px 0px 40px', height: '35px', marginTop: '5px', color: '#fff', alignItems: 'flex-start' }} /></Link>
+                            <Link to={`/home?level=${operationRedux.gameLevel}`}><ChevronLeftIcon sx={{ display: 'flex', width: '35px', padding: '20px 40px 0px 40px', height: '35px', marginTop: '5px', color: '#fff', alignItems: 'flex-start' }} /></Link>
                         </Grid>
                         {children}
                     </Grid>

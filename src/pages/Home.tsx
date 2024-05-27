@@ -7,13 +7,13 @@ import { useNavigate } from "react-router-dom"
 import useQuery from "../hooks/useQuery"
 import { useEffect } from "react"
 import NavBar from "../components/NavBar"
+import { useAppSelector } from "../store/hooks"
 
 function Home() {
   const theme = useTheme()
   const isXs = useMediaQuery(theme.breakpoints.only("xs"))
   const navigate = useNavigate()
-  const query = useQuery()
-  const level = query.get("level")
+  const level = useAppSelector(state => state.operations.gameLevel)
 
   useEffect(() => {
     if (!level) {
