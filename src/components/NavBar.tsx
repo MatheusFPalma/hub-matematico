@@ -17,18 +17,24 @@ import { Colors } from "./utils/colors"
 import { useState } from "react"
 import CardLevelHistory from "./CardLevelHistory"
 
-interface Props {
-  level: string
+interface Levels {
+  easy: boolean
+  medium: boolean
+  hard: boolean
 }
 
-export default function NavBar({ level }: Props) {
+interface Props {
+  level?: string | undefined
+  levels: Levels
+}
+
+export default function NavBar({ levels, level }: Props) {
   const [open, setOpen] = useState(false)
   const theme = useTheme()
   const isXs = useMediaQuery(theme.breakpoints.only("xs"))
 
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen)
-    console.log("oi")
   }
 
   return (
@@ -111,17 +117,41 @@ export default function NavBar({ level }: Props) {
               <CardLevelHistory
                 date="02/03"
                 level="Fácil"
-                currentLevel={level === "Fácil" ? true : false}
+                currentLevel={
+                  level
+                    ? level === "Fácil"
+                      ? true
+                      : false
+                    : levels.easy
+                      ? true
+                      : false
+                }
               />
               <CardLevelHistory
                 date="05/04"
                 level="Médio"
-                currentLevel={level === "Médio" ? true : false}
+                currentLevel={
+                  level
+                    ? level === "Médio"
+                      ? true
+                      : false
+                    : levels.medium
+                      ? true
+                      : false
+                }
               />
               <CardLevelHistory
                 date="08/02"
                 level="Difícil"
-                currentLevel={level === "Difícil" ? true : false}
+                currentLevel={
+                  level
+                    ? level === "Difícil"
+                      ? true
+                      : false
+                    : levels.hard
+                      ? true
+                      : false
+                }
               />
             </Stack>
           </Stack>

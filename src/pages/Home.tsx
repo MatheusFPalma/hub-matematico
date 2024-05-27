@@ -4,26 +4,68 @@ import cards from "../../public/cards.svg"
 import CardTutorial from "../components/CardTutorial"
 import CardGame from "../components/CardGame"
 import { useNavigate } from "react-router-dom"
-import useQuery from "../hooks/useQuery"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import NavBar from "../components/NavBar"
 import { useAppSelector } from "../store/hooks"
+import CardChooseLevel from "../components/CardChooseLevel"
+import levelEasy from "../../public/levelEasy.png"
+import levelMiddle from "../../public/levelMiddle.png"
+import levelHard from "../../public/levelHard.png"
+
+interface Levels {
+  easy: boolean
+  medium: boolean
+  hard: boolean
+}
 
 function Home() {
   const theme = useTheme()
   const isXs = useMediaQuery(theme.breakpoints.only("xs"))
-  const navigate = useNavigate()
-  const level = useAppSelector(state => state.operations.gameLevel)
+  const salveLevel = useAppSelector(state => state.operations.gameLevel)
+  const [levels, setLevels] = useState<Levels>({
+    easy: false,
+    medium: false,
+    hard: false,
+  })
+  const [level, setLevel] = useState("")
+
+  const handleLevelChange = (level: keyof Levels) => {
+    const newLevels: Levels = { easy: false, medium: false, hard: false }
+    newLevels[level] = true
+    setLevels(newLevels)
+    setLevel(level)
+    localStorage.setItem("gameLevel", level)
+  }
+
+  const getCheckedLevel = (value: string) => {
+    if (levels.easy || levels.medium || levels.hard) {
+      switch (value) {
+        case "Fácil":
+          return levels.easy
+        case "Médio":
+          return levels.medium
+        case "Difícil":
+          return levels.hard
+      }
+    } else {
+      return level === value
+    }
+  }
 
   useEffect(() => {
-    if (!level) {
-      navigate("/choiceLevel")
+    const savedLevel = localStorage.getItem("gameLevel")
+    if (savedLevel) {
+      setLevel(savedLevel)
+      setLevels({
+        easy: savedLevel === "easy",
+        medium: savedLevel === "medium",
+        hard: savedLevel === "hard",
+      })
+    } else if (salveLevel) {
+      setLevel(salveLevel)
+      localStorage.setItem("gameLevel", salveLevel)
     }
-  }, [level])
-
-  if (!level) {
-    return <></>
-  }
+  }, [salveLevel])
 
   return (
     <Box
@@ -37,98 +79,131 @@ function Home() {
         "var(--gradient-green, linear-gradient(180deg, #FBFFFB 0%, #F5F5F5 100%))"
       }
     >
-      <NavBar level={level} />
+      <NavBar levels={levels} level={level ? level : undefined} />
       <Box
-        padding={"30px"}
+        padding={"0px 30px "}
         display={"flex"}
         flexDirection={"column"}
-        gap={"20px"}
+        gap={"10px"}
       >
-        {!isXs && (
-          <Typography variant="h3">
-            Selecione seu <br /> nível de dificuldade
-          </Typography>
-        )}
-        <Box
-          display={"grid"}
-          gridTemplateColumns={{ xs: "1fr", md: "1fr 1fr 1fr" }}
-          gap={"20px"}
-          alignItems={"stretch"}
-        >
-          <CardTutorial
-            title="Tutorial Nível 01"
-            text="Pronto para o desafio?"
-            nameGame="Card Memory"
-            disabled={level != "Fácil"}
-            tutorialId={1}
-          />
-          <CardTutorial
-            title="Tutorial Nível 02"
-            text="Indo mais além"
-            disabled={level != "Médio"}
-            tutorialId={2}
-          />
-          <CardTutorial
-            title="Tutorial Nível 03"
-            text="Card Memory"
-            disabled={level != "Difícil"}
-            tutorialId={3}
-          />
-
-          {isXs ? (
-            <Box
-              display={"grid"}
-              gridTemplateColumns={"1fr 1fr"}
-              gap={"20px"}
-              alignItems={"stretch"}
-            >
-              <CardGame title={<>Card Memory</>} image={cards} />
-              <CardGame
-                title={
-                  <>
-                    Em breve novos <br />
-                    jogos
-                  </>
-                }
-                image={cards}
-                disabled
-              />
-              <CardGame
-                title={
-                  <>
-                    Em breve novos <br />
-                    jogos
-                  </>
-                }
-                image={cards}
-                disabled
-              />
-            </Box>
-          ) : (
-            <>
-              <CardGame title={<>Card Memory</>} image={cards} />
-              <CardGame
-                title={
-                  <>
-                    Em breve novos <br />
-                    jogos
-                  </>
-                }
-                image={cards}
-                disabled
-              />
-              <CardGame
-                title={
-                  <>
-                    Em breve novos <br />
-                    jogos
-                  </>
-                }
-                image={cards}
-                disabled
-              />
-            </>
+        <Box display={"flex"} flexDirection={"column"} gap={"10px"}>
+          {!isXs && (
+            <Typography variant="h4">
+              Selecione seu <br /> nível de dificuldade
+            </Typography>
           )}
+          <Box
+            display={"grid"}
+            gridTemplateColumns={{ xs: "1fr", md: "1fr 1fr 1fr" }}
+            gap={"20px"}
+            alignItems={"stretch"}
+          >
+            <CardChooseLevel
+              title="Fácil"
+              checkedLevel={!!getCheckedLevel("Fácil")}
+              image={levelEasy}
+              onLevelChange={() => handleLevelChange("easy")}
+            />
+            <CardChooseLevel
+              title="Médio"
+              checkedLevel={!!getCheckedLevel("Médio")}
+              image={levelMiddle}
+              onLevelChange={() => handleLevelChange("medium")}
+            />
+            <CardChooseLevel
+              title="Difícil"
+              checkedLevel={!!getCheckedLevel("Difícil")}
+              image={levelHard}
+              onLevelChange={() => handleLevelChange("hard")}
+            />
+            <CardTutorial
+              title="Tutorial Nível 01"
+              text="Pronto para o desafio?"
+              nameGame="Card Memory"
+              disabled={!getCheckedLevel("Fácil")}
+              tutorialId={1}
+            />
+            <CardTutorial
+              title="Tutorial Nível 02"
+              text="Indo mais além"
+              disabled={!getCheckedLevel("Médio")}
+              tutorialId={2}
+            />
+            <CardTutorial
+              title="Tutorial Nível 03"
+              text="Card Memory"
+              disabled={!getCheckedLevel("Difícil")}
+              tutorialId={3}
+            />
+          </Box>
+        </Box>
+        <Box>
+          {!isXs && (
+            <Typography paddingBottom={"5px"} variant="h4">
+              Selecione seu desafio
+            </Typography>
+          )}
+          <Box
+            display={"grid"}
+            gridTemplateColumns={{ xs: "1fr", md: "1fr 1fr 1fr" }}
+            gap={"20px"}
+            alignItems={"stretch"}
+          >
+            {isXs ? (
+              <Box
+                display={"grid"}
+                gridTemplateColumns={"1fr 1fr"}
+                gap={"20px"}
+                alignItems={"stretch"}
+              >
+                <CardGame title={<>Card Memory</>} image={cards} />
+                <CardGame
+                  title={
+                    <>
+                      Em breve novos <br />
+                      jogos
+                    </>
+                  }
+                  image={cards}
+                  disabled
+                />
+                <CardGame
+                  title={
+                    <>
+                      Em breve novos <br />
+                      jogos
+                    </>
+                  }
+                  image={cards}
+                  disabled
+                />
+              </Box>
+            ) : (
+              <>
+                <CardGame title={<>Card Memory</>} image={cards} />
+                <CardGame
+                  title={
+                    <>
+                      Em breve novos <br />
+                      jogos
+                    </>
+                  }
+                  image={cards}
+                  disabled
+                />
+                <CardGame
+                  title={
+                    <>
+                      Em breve novos <br />
+                      jogos
+                    </>
+                  }
+                  image={cards}
+                  disabled
+                />
+              </>
+            )}
+          </Box>
         </Box>
       </Box>
     </Box>
