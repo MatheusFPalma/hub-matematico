@@ -21,6 +21,9 @@ body {
 #root {
   margin: 0 auto;
   height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
 }
 
 .buttonChoiceLevel {

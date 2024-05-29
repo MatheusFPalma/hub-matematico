@@ -25,6 +25,7 @@ export default function Tutorial() {
   const navigate = useNavigate()
   const theme = useTheme()
   const isXs = useMediaQuery(theme.breakpoints.only("xs"))
+  const isSm = useMediaQuery(theme.breakpoints.only("sm"))
 
   let query = useQuery()
   const tutorialId = query.get("id")
@@ -54,30 +55,27 @@ export default function Tutorial() {
         display={"flex"}
         flexWrap={"wrap"}
         flexDirection={"column"}
-        alignItems={"flex-start"}
-        padding='0px 40px'
+        width={'100%'}
       >
         <Link to={`/home?level=${query}`}>
-          <ChevronLeftIcon sx={{
-            display: 'flex', color: '#fff',
-            justifyContent: "center", padding: '20px 40px 40px 0px', width: '35px', height: '35px'
-          }} />
+          <ChevronLeftIcon sx={{ display: 'flex', color: '#fff', padding: '20px 0px 40px 40px', justifyContent: 'flex-start', width: '35px', height: '35px' }} />
         </Link>
+      </Box>
+      <Box sx={{ display: 'flex', alignItems: "center", flexDirection: 'column', textAlign: 'center' }}>
         <Typography
           variant="h6"
           color={Colors.white}
-          fontSize={isXs ? 30 : 40}
+          fontSize={isXs ? 20 : isSm ? 25 : 40}
           display={"flex"}
           alignItems={"center"}
           justifyContent={"center"}
-          padding='0px 0px 40px 0px'
+          padding='0px 40px'
+          flexWrap={'wrap'}
         >
           Aprenda como jogar o MaticGame: {tutorialDetails[tutorialId].title}
         </Typography>
-      </Box>
-      <Box>
         <video
-          height={isXs ? "180px" : "500px"}
+          height={isXs ? "180px" : isSm ? "320px" : "500px"}
           controls
           style={{ borderRadius: "20px" }}
         >
@@ -87,3 +85,4 @@ export default function Tutorial() {
     </Box>
   )
 }
+
