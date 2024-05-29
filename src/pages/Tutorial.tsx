@@ -2,8 +2,9 @@ import { Box, Typography, useMediaQuery, useTheme } from "@mui/material"
 import { Colors } from "../components/utils/colors"
 import videoTest from "../../public/tutorialVideoTeste.mp4"
 import useQuery from "../hooks/useQuery"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { useEffect } from "react"
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 
 const tutorialDetails: Record<string, { title: string; video: string }> = {
   "1": {
@@ -40,37 +41,48 @@ export default function Tutorial() {
 
   return (
     <Box
-      minHeight={"100vh"}
       minWidth={"100vw"}
-      bgcolor={Colors.green}
+      height={"100vh"}
+      bgcolor={Colors.black}
       display={"flex"}
-      alignItems={"center"}
       justifyContent={"center"}
+      flexDirection={"column"}
+      textAlign={"center"}
+      alignItems={"center"}
     >
       <Box
-        padding={{ xs: "20px", md: "50px" }}
         display={"flex"}
+        flexWrap={"wrap"}
         flexDirection={"column"}
-        gap={"20px"}
+        alignItems={"flex-start"}
+        padding='0px 40px'
       >
-        <Box>
-          <Typography
-            variant="h6"
-            color={Colors.white}
-            fontSize={isXs ? 30 : 40}
-          >
-            Aprenda como jogar o MaticGame: {tutorialDetails[tutorialId].title}
-          </Typography>
-        </Box>
-        <Box>
-          <video
-            height={isXs ? "180px" : "500px"}
-            controls
-            style={{ borderRadius: "20px" }}
-          >
-            <source src={tutorialDetails[tutorialId].video} type="video/mp4" />
-          </video>
-        </Box>
+        <Link to={`/home?level=${query}`}>
+          <ChevronLeftIcon sx={{
+            display: 'flex', color: '#fff',
+            justifyContent: "center", padding: '20px 40px 40px 0px', width: '35px', height: '35px'
+          }} />
+        </Link>
+        <Typography
+          variant="h6"
+          color={Colors.white}
+          fontSize={isXs ? 30 : 40}
+          display={"flex"}
+          alignItems={"center"}
+          justifyContent={"center"}
+          padding='0px 0px 40px 0px'
+        >
+          Aprenda como jogar o MaticGame: {tutorialDetails[tutorialId].title}
+        </Typography>
+      </Box>
+      <Box>
+        <video
+          height={isXs ? "180px" : "500px"}
+          controls
+          style={{ borderRadius: "20px" }}
+        >
+          <source src={tutorialDetails[tutorialId].video} type="video/mp4" />
+        </video>
       </Box>
     </Box>
   )
