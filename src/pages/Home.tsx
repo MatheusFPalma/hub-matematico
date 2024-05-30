@@ -3,7 +3,7 @@ import { Box, Typography, useMediaQuery, useTheme } from "@mui/material"
 import cards from "../../public/cards.svg"
 import CardTutorial from "../components/CardTutorial"
 import CardGame from "../components/CardGame"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useSearchParams } from "react-router-dom"
 import { useEffect, useState } from "react"
 import NavBar from "../components/NavBar"
 import { useAppSelector } from "../store/hooks"
@@ -11,6 +11,7 @@ import CardChooseLevel from "../components/CardChooseLevel"
 import levelEasy from "../../public/levelEasy.png"
 import levelMiddle from "../../public/levelMiddle.png"
 import levelHard from "../../public/levelHard.png"
+import useQuery from "../hooks/useQuery"
 
 interface Levels {
   easy: boolean
@@ -19,22 +20,35 @@ interface Levels {
 }
 
 function Home() {
+  const [searchParams, setSearchParams] = useSearchParams()
+
+  const getLevel = (level: string) => {
+    switch (level) {
+      case "easy":
+        return "Fácil"
+      case "medium":
+        return "Médio"
+      case "hard":
+        return "Difícil"
+      default:
+        return level
+    }
+  }
+  const [level] = useState(() => getLevel(searchParams.get("level") || "easy"))
+
   const theme = useTheme()
   const isXs = useMediaQuery(theme.breakpoints.only("xs"))
-  const salveLevel = useAppSelector(state => state.operations.gameLevel)
   const [levels, setLevels] = useState<Levels>({
     easy: false,
     medium: false,
     hard: false,
   })
-  const [level, setLevel] = useState("")
 
   const handleLevelChange = (level: keyof Levels) => {
     const newLevels: Levels = { easy: false, medium: false, hard: false }
     newLevels[level] = true
     setLevels(newLevels)
-    setLevel(level)
-    localStorage.setItem("gameLevel", level)
+    setSearchParams({ level })
   }
 
   const getCheckedLevel = (value: string) => {
@@ -51,21 +65,6 @@ function Home() {
       return level === value
     }
   }
-
-  useEffect(() => {
-    const savedLevel = localStorage.getItem("gameLevel")
-    if (savedLevel) {
-      setLevel(savedLevel)
-      setLevels({
-        easy: savedLevel === "easy",
-        medium: savedLevel === "medium",
-        hard: savedLevel === "hard",
-      })
-    } else if (salveLevel) {
-      setLevel(salveLevel)
-      localStorage.setItem("gameLevel", salveLevel)
-    }
-  }, [salveLevel])
 
   return (
     <Box
