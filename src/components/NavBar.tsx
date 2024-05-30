@@ -24,11 +24,10 @@ interface Levels {
 }
 
 interface Props {
-  level?: string | undefined
-  levels: Levels
+  level: string
 }
 
-export default function NavBar({ levels, level }: Props) {
+export default function NavBar({ level }: Props) {
   const [open, setOpen] = useState(false)
   const theme = useTheme()
   const isXs = useMediaQuery(theme.breakpoints.only("xs"))
@@ -117,41 +116,17 @@ export default function NavBar({ levels, level }: Props) {
               <CardLevelHistory
                 date="02/03"
                 level="Fácil"
-                currentLevel={
-                  level
-                    ? level === "Fácil"
-                      ? true
-                      : false
-                    : levels.easy
-                      ? true
-                      : false
-                }
+                currentLevel={level === "Fácil"}
               />
               <CardLevelHistory
                 date="05/04"
                 level="Médio"
-                currentLevel={
-                  level
-                    ? level === "Médio"
-                      ? true
-                      : false
-                    : levels.medium
-                      ? true
-                      : false
-                }
+                currentLevel={level === "Médio"}
               />
               <CardLevelHistory
                 date="08/02"
                 level="Difícil"
-                currentLevel={
-                  level
-                    ? level === "Difícil"
-                      ? true
-                      : false
-                    : levels.hard
-                      ? true
-                      : false
-                }
+                currentLevel={level === "Difícil"}
               />
             </Stack>
           </Stack>

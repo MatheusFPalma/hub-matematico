@@ -34,7 +34,9 @@ function Home() {
         return level
     }
   }
-  const [level] = useState(() => getLevel(searchParams.get("level") || "easy"))
+  const [level, setLevel] = useState(() =>
+    getLevel(searchParams.get("level") || "easy"),
+  )
 
   const theme = useTheme()
   const isXs = useMediaQuery(theme.breakpoints.only("xs"))
@@ -44,11 +46,12 @@ function Home() {
     hard: false,
   })
 
-  const handleLevelChange = (level: keyof Levels) => {
+  const handleLevelChange = (newLevel: keyof Levels) => {
     const newLevels: Levels = { easy: false, medium: false, hard: false }
-    newLevels[level] = true
+    newLevels[newLevel] = true
     setLevels(newLevels)
-    setSearchParams({ level })
+    setSearchParams({ level: newLevel })
+    setLevel(getLevel(newLevel))
   }
 
   const getCheckedLevel = (value: string) => {
@@ -78,7 +81,7 @@ function Home() {
         "var(--gradient-green, linear-gradient(180deg, #FBFFFB 0%, #F5F5F5 100%))"
       }
     >
-      <NavBar levels={levels} level={level ? level : undefined} />
+      <NavBar level={level} />
       <Box
         padding={"0px 30px "}
         display={"flex"}
