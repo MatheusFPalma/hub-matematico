@@ -27,7 +27,7 @@ export default function CardChooseLevel({
           fontSize={"16px"}
           alignItems={"center"}
           justifyContent={"space-evenly"}
-          width={"100%"}
+          width={"50vw"}
         >
           <Checkbox
             style={{

@@ -13,7 +13,7 @@ import levelMiddle from "../../public/levelMiddle.png"
 import levelHard from "../../public/levelHard.png"
 import useQuery from "../hooks/useQuery"
 
-interface Levels {
+export interface Levels {
   easy: boolean
   medium: boolean
   hard: boolean
@@ -81,7 +81,7 @@ function Home() {
         "var(--gradient-green, linear-gradient(180deg, #FBFFFB 0%, #F5F5F5 100%))"
       }
     >
-      <NavBar level={level} />
+      <NavBar level={level} onChangeLevel={handleLevelChange} />
       <Box
         padding={"0px 30px "}
         display={"flex"}
@@ -100,24 +100,28 @@ function Home() {
             gap={"20px"}
             alignItems={"stretch"}
           >
-            <CardChooseLevel
-              title="Fácil"
-              checkedLevel={!!getCheckedLevel("Fácil")}
-              image={levelEasy}
-              onLevelChange={() => handleLevelChange("easy")}
-            />
-            <CardChooseLevel
-              title="Médio"
-              checkedLevel={!!getCheckedLevel("Médio")}
-              image={levelMiddle}
-              onLevelChange={() => handleLevelChange("medium")}
-            />
-            <CardChooseLevel
-              title="Difícil"
-              checkedLevel={!!getCheckedLevel("Difícil")}
-              image={levelHard}
-              onLevelChange={() => handleLevelChange("hard")}
-            />
+            {!isXs && (
+              <>
+                <CardChooseLevel
+                  title="Fácil"
+                  checkedLevel={!!getCheckedLevel("Fácil")}
+                  image={levelEasy}
+                  onLevelChange={() => handleLevelChange("easy")}
+                />
+                <CardChooseLevel
+                  title="Médio"
+                  checkedLevel={!!getCheckedLevel("Médio")}
+                  image={levelMiddle}
+                  onLevelChange={() => handleLevelChange("medium")}
+                />
+                <CardChooseLevel
+                  title="Difícil"
+                  checkedLevel={!!getCheckedLevel("Difícil")}
+                  image={levelHard}
+                  onLevelChange={() => handleLevelChange("hard")}
+                />
+              </>
+            )}
             <CardTutorial
               title="Tutorial Nível 01"
               text="Pronto para o desafio?"
