@@ -37,7 +37,7 @@ const ChallengeLevel: React.FC<ChallengeLevelProps> = ({ children, renderCards, 
         const isSelected = lastSelectedCardsRedux.some((item) => item.cardId === card.cardId)
         if (isSelected) {
             dispatch(removeLastSelectedCard(card))
-            
+
         }
 
         else {
@@ -103,7 +103,7 @@ const ChallengeLevel: React.FC<ChallengeLevelProps> = ({ children, renderCards, 
     useEffect(() => {
         const lastEquationResult = resultLastOperation.equations.result
         setSimbolOperation(resultLastOperation.equations.operation)
-        setResultEquation(lastEquationResult)
+        setResultEquation(simbolOperation === '÷' ? Number(lastEquationResult.toFixed(2)) : lastEquationResult)
     }, [resultEquation, lastSelectedCardsRedux])
 
 
@@ -116,7 +116,7 @@ const ChallengeLevel: React.FC<ChallengeLevelProps> = ({ children, renderCards, 
         changeOperation()
     }, [operationRedux.operationLevel, simbolOperation])
 
-    useEffect(() =>{dispatch(resetSelectectedCard())},[])
+    useEffect(() => { dispatch(resetSelectectedCard()) }, [])
 
     return (
         <>
@@ -149,8 +149,8 @@ const ChallengeLevel: React.FC<ChallengeLevelProps> = ({ children, renderCards, 
                             <img style={{ width: '20px', height: '20px', marginRight: '10px' }} src={signalIqual} alt='signalIqual' />
                             {lastSelectedCardsRedux.length === 2 && (
                                 <>
-                                    <GroupOperationLevel/>
-                                    <CardResult/>
+                                    <GroupOperationLevel />
+                                    <CardResult />
                                 </>
                             )}
                         </Grid>
