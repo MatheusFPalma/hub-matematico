@@ -47,9 +47,13 @@ export const cardsSlice = createSlice({
         valueCurrentStatement: (state, action) => {
             state.targetCurrentStatement = action.payload
             return state
+        },
+        resetSelectectedCard: (state) => {
+            state.lastSelectedCards = []
+            return state
         }
     }
 })
 
-export const { getCards, setLastSelectedCard, removeLastSelectedCard, valueCurrentStatement, clearSelectedCards } = cardsSlice.actions
+export const { resetSelectectedCard, getCards, setLastSelectedCard, removeLastSelectedCard, valueCurrentStatement, clearSelectedCards } = cardsSlice.actions
 export default cardsSlice.reducer

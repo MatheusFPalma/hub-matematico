@@ -1,10 +1,12 @@
 import { Box, Paper, Typography, useTheme } from "@mui/material"
+import { useAppSelector } from "../store/hooks"
 
 interface CardResultProps {
     value: number | undefined
 }
 
-const CardResult: React.FC<CardResultProps> = ({ value }) => {
+const CardResult: React.FC = () => {
+    const value = useAppSelector((state) => state.challenges.equations.result)
     const theme = useTheme()
 
     return (

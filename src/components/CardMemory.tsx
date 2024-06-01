@@ -17,10 +17,9 @@ const CardMemory: React.FC<CardMemoryProps> = ({ card, action }) => {
     const isSelected = lastSelectedCards.some((c) => c.cardId === card.cardId);
 
     const handleClick = () => {
-        isSelected ? dispatch(removeLastSelectedCard(card)) : setLastSelectedCard(card);
+       /* isSelected ? dispatch(removeLastSelectedCard(card)) : dispatch(setLastSelectedCard(card));*/
         action(card.numberCard); // Chamar a função de ação fornecida
     };
-
 
     return (
         <Box
@@ -38,8 +37,19 @@ const CardMemory: React.FC<CardMemoryProps> = ({ card, action }) => {
         >
             <Paper className='styleCard' sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
                 <button style={{ border: 'none', backgroundColor: 'transparent', cursor: 'pointer' }} onClick={() => handleClick()}>
-                    <Typography style={{ width: '40px', height: '40px', justifyContent: 'center', display: 'flex', alignItems: 'center', fontFamily: 'Fredoka', fontSize: '38px', fontWeight: 600, color: isSelected ? '#fff' : theme.palette.secondary.main }}>{card.numberCard} <span style={{ display: 'flex', paddingLeft: '5px', alignItems: 'center', height: '40px', width: '25px', fontSize: '40px' }}>{card.operation}</span></Typography>
-                    <img style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-end', width: '40px', height: '38px' }} src={card.img} alt='apple' />
+                    {isSelected ? (
+                        <Typography style={{ width: '40px', height: '40px', justifyContent: 'center', display: 'flex', alignItems: 'center', fontFamily: 'Fredoka', fontSize: '38px', fontWeight: 600, color: isSelected ? '#fff' : theme.palette.secondary.main }}>
+                            {card.numberCard}
+                            <span style={{ display: 'flex', paddingLeft: '5px', alignItems: 'center', height: '40px', width: '25px', fontSize: '40px' }}>
+                                {card.operation}
+                            </span>
+                        </Typography>
+                    ) : (
+                        <div style={{ width: '40px', height: '40px', justifyContent: 'center', display: 'flex', alignItems: 'center', fontFamily: 'Fredoka', fontSize: '38px', fontWeight: 600, color: theme.palette.secondary.main }}>
+                            ?
+                        </div>
+                    )}
+                    {isSelected && <img style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-end', width: '40px', height: '38px' }} src={card.img} alt='apple' />}
                 </button>
             </Paper>
         </Box>

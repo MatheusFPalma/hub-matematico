@@ -2,7 +2,7 @@ import { Alert, Box, CircularProgress, Grid, Snackbar, Typography } from "@mui/m
 import CardMemory from "./CardMemory"
 import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { CardType, removeLastSelectedCard, setLastSelectedCard, valueCurrentStatement } from "../store/modules/cards.slice";
+import { CardType, removeLastSelectedCard, setLastSelectedCard, valueCurrentStatement, resetSelectectedCard } from "../store/modules/cards.slice";
 import signalIqual from "/signal_iqual.png"
 import GroupOperationLevel from "./GroupOperationLevel";
 import CardResult from "./CardResult";
@@ -23,8 +23,6 @@ const ChallengeLevel: React.FC<ChallengeLevelProps> = ({ children, renderCards, 
 
     const [simbolOperation, setSimbolOperation] = useState<string | null>('')
     const [statement, setStatement] = useState<string>('')
-    const [firstCard, setFirstCard] = useState<number>(0);
-    const [secondCard, setSecondCard] = useState<number>(0);
     const [allRight, setAllRight] = useState<boolean>(true)
     const [selectedPair, setSelectedPair] = useState<boolean>(false);
     const [resultEquation, setResultEquation] = useState<number>(0)
@@ -39,13 +37,7 @@ const ChallengeLevel: React.FC<ChallengeLevelProps> = ({ children, renderCards, 
         const isSelected = lastSelectedCardsRedux.some((item) => item.cardId === card.cardId)
         if (isSelected) {
             dispatch(removeLastSelectedCard(card))
-            if (firstCard === card.numberCard) {
-                // Se for, limpa o valor de firstCard
-                setFirstCard(0);
-            } else if (secondCard === card.numberCard) {
-                // Se for, limpa o valor de secondCard
-                setSecondCard(0);
-            }
+            
         }
 
         else {
@@ -56,12 +48,7 @@ const ChallengeLevel: React.FC<ChallengeLevelProps> = ({ children, renderCards, 
                 return;
             }
             else {
-                if (lastSelectedCardsRedux.length === 1) {
-                    // Atualiza o firstCard com o card selecionado anteriormente
-                    setFirstCard(lastSelectedCardsRedux[0].numberCard);
-                }
                 dispatch(setLastSelectedCard(card));
-                setSecondCard(card.numberCard);
             }
         }
     }
@@ -117,18 +104,19 @@ const ChallengeLevel: React.FC<ChallengeLevelProps> = ({ children, renderCards, 
         const lastEquationResult = resultLastOperation.equations.result
         setSimbolOperation(resultLastOperation.equations.operation)
         setResultEquation(lastEquationResult)
-    }, [firstCard, resultEquation, secondCard, lastSelectedCardsRedux])
+    }, [resultEquation, lastSelectedCardsRedux])
 
 
     useEffect(() => {
         currentStatement()
-    }, [firstCard, secondCard, operationRedux.operationLevel, simbolOperation, allRight])
+    }, [operationRedux.operationLevel, simbolOperation, allRight])
 
 
     useEffect(() => {
         changeOperation()
     }, [operationRedux.operationLevel, simbolOperation])
 
+    useEffect(() =>{dispatch(resetSelectectedCard())},[])
 
     return (
         <>
@@ -159,10 +147,10 @@ const ChallengeLevel: React.FC<ChallengeLevelProps> = ({ children, renderCards, 
                         </Grid>
                         <Grid item sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                             <img style={{ width: '20px', height: '20px', marginRight: '10px' }} src={signalIqual} alt='signalIqual' />
-                            {firstCard !== null && secondCard !== null && (
+                            {lastSelectedCardsRedux.length === 2 && (
                                 <>
-                                    <GroupOperationLevel firstCard={firstCard} secondCard={secondCard} operation={simbolOperation} />
-                                    <CardResult value={resultEquation} />
+                                    <GroupOperationLevel/>
+                                    <CardResult/>
                                 </>
                             )}
                         </Grid>

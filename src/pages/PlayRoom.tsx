@@ -26,7 +26,7 @@ const PlayRoom = () => {
 
     const [renderCards, setRenderCards] = useState<CardType[]>([])
     const [operation, setOperation] = useState<"+" | "-" | "x" | "÷" | null>(null)
-    const [countdown, setCountdown] = useState<number>(8);
+    const [countdown, setCountdown] = useState<number>(8000);
     const [isPaused, setIsPaused] = useState<boolean>(false)
     const [openAlert, setOpenAlert] = useState<boolean>(false)
     const [alertMessage, setAlertMessage] = useState<string>('')
