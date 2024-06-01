@@ -12,7 +12,6 @@ O Math Games Hub é um projeto open source que visa auxiliar alunos e professore
 - [Instalação e Configuração](#instalação-e-configuração)
 - [Como Contribuir](#como-contribuir)
 - [Licença](#licença)
-- [Contato e Suporte](#contato-e-suporte)
 - [Agradecimentos](#agradecimentos)
 
 ## Motivação
