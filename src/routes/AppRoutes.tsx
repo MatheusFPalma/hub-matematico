@@ -4,6 +4,8 @@ import PlayRoom from "../pages/PlayRoom"
 import Onboarding from "../pages/Onboarding"
 import Home from "../pages/Home"
 import Tutorial from "../pages/Tutorial"
+import ScreenSplash from "../pages/ScreenSplash"
+
 
 const router = createBrowserRouter([
   {
@@ -12,6 +14,10 @@ const router = createBrowserRouter([
   },
   {
     path: "/",
+    element: <ScreenSplash />
+  },
+  {
+    path: "/onboarding",
     element: <Onboarding />,
   },
   {
