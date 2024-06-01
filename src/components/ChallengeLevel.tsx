@@ -9,7 +9,6 @@ import CardResult from "./CardResult";
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { Link } from "react-router-dom";
 import calculateTargetValue from "./utils/statementUtils";
-import { updateInfoOperation } from "../store/modules/challenge.slice";
 
 interface ChallengeLevelProps {
     children?: React.ReactNode
@@ -22,7 +21,7 @@ const ChallengeLevel: React.FC<ChallengeLevelProps> = ({ children, renderCards, 
     const dispatch = useAppDispatch()
     const operationRedux = useAppSelector((state) => state.operations)
 
-    const [simbolOperation, setSimbolOperation] = useState<'+' | '-' | 'x' | '÷' | null>(null)
+    const [simbolOperation, setSimbolOperation] = useState<string | null>('')
     const [statement, setStatement] = useState<string>('')
     const [allRight, setAllRight] = useState<boolean>(true)
     const [selectedPair, setSelectedPair] = useState<boolean>(false);
@@ -45,7 +44,7 @@ const ChallengeLevel: React.FC<ChallengeLevelProps> = ({ children, renderCards, 
             if (lastSelectedCardsRedux.length === 2) {
                 setSelectedPair(true);
                 setAlertMessage('Retire a seleção de uma das cartas para mudar sua escolha');
-                setOpenAlert(true)
+                setOpenAlert(true);
                 return;
             }
             else {
@@ -56,7 +55,7 @@ const ChallengeLevel: React.FC<ChallengeLevelProps> = ({ children, renderCards, 
 
 
     const changeOperation = () => {
-        switch (simbolOperation) {
+        switch (operationRedux.operationLevel) {
             case '+':
                 setSimbolOperation('+')
                 break;
@@ -117,6 +116,7 @@ const ChallengeLevel: React.FC<ChallengeLevelProps> = ({ children, renderCards, 
         changeOperation()
     }, [operationRedux.operationLevel, simbolOperation])
 
+    useEffect(() =>{dispatch(resetSelectectedCard())},[])
 
     return (
         <>

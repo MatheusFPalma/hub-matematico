@@ -1,11 +1,4 @@
-import {
-  Box,
-  ClassNameMap,
-  Typography,
-  TypographyClasses,
-  useMediaQuery,
-  useTheme,
-} from "@mui/material"
+import { Box, Typography, useMediaQuery, useTheme } from "@mui/material"
 import vectorStar from "../../public/vectorStar.svg"
 import play from "../../public/play.svg"
 import { Link } from "react-router-dom"
@@ -17,7 +10,6 @@ interface Props {
   nameGame?: string
   disabled?: boolean
   tutorialId: number
-  compact?: boolean
 }
 
 function CardTutorial({
@@ -26,45 +18,9 @@ function CardTutorial({
   nameGame,
   disabled = false,
   tutorialId,
-  compact = false,
 }: Props) {
   const theme = useTheme()
   const isXs = useMediaQuery(theme.breakpoints.only("xs"))
-
-  if (compact) {
-    return (
-      <>
-        {isXs && !disabled && (
-          <Box
-            component={Link}
-            to={!disabled ? `/tutorial?id=${tutorialId}` : "/home"}
-            bgcolor={!disabled ? Colors.green : Colors.grey}
-            display={"flex"}
-            flexDirection={"column"}
-            borderRadius={"10px"}
-            padding={"10px 20px 10px 10px"}
-            color={"white"}
-            gap={"10px"}
-            fontFamily={"Nunito, sans-serif"}
-            fontSize={"16px"}
-          >
-            <Box display={"flex"} gap={"10px"} alignItems={"center"}>
-              <Typography variant="h6" color={Colors.white}>
-                Assistir tutorial
-              </Typography>
-              <Box>
-                <img src={play} />
-              </Box>
-            </Box>
-            <Box>
-              <Typography>{text}</Typography>
-            </Box>
-          </Box>
-        )}
-      </>
-    )
-  }
-
   return (
     <>
       {isXs && !disabled && (
