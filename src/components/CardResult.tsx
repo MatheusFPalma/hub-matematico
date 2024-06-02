@@ -16,7 +16,7 @@ const CardResult: React.FC = () => {
                 flexWrap: 'wrap',
                 '& > :not(style)': {
                     m: 1,
-                    width: 95,
+                    width: 105,
                     height: 138,
                     borderRadius: 4,
                     backgroundColor: theme.palette.primary.dark,
