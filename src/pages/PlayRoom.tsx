@@ -26,7 +26,7 @@ const PlayRoom = () => {
 
     const [renderCards, setRenderCards] = useState<CardType[]>([])
     const [operation, setOperation] = useState<"+" | "-" | "x" | "÷" | null>(null)
-    const [countdown, setCountdown] = useState<number>(8000);
+    const [countdown, setCountdown] = useState<number>(8);
     const [isPaused, setIsPaused] = useState<boolean>(false)
     const [openAlert, setOpenAlert] = useState<boolean>(false)
     const [alertMessage, setAlertMessage] = useState<string>('')
@@ -108,20 +108,20 @@ const PlayRoom = () => {
         }
     }
 
-    useEffect(() => {
-        if (reStartTime) {
-            reStart()
-        }
-    }, [reStartTime])
+    // useEffect(() => {
+    //     if (reStartTime) {
+    //         reStart()
+    //     }
+    // }, [reStartTime])
 
     useEffect(() => {
         startTimer();
 
-        // if (countdown === 0 && !itRight) {
-        //     setItRight(false)
-        //     setAlertMessage("Oh não! Tempo esgotado")
-        //     setOpenAlert(true)
-        // }
+        if (countdown === 0 && !itRight) {
+            setItRight(false)
+            setAlertMessage("Oh não! Tempo esgotado")
+            setOpenAlert(true)
+        }
     }, [renderCards, countdown, isPaused, itRight])
 
     useEffect(() => {
